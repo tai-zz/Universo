@@ -139,13 +139,13 @@
       "fav": false,
       "created": 1789995989896,
       "orbit": {
-        "r": 329.1550357994819,
-        "a0": -19.18819203470317,
+        "r": 488.3355380985733,
+        "a0": -12.214775195988674,
         "speed": 0.013200757790235124
       },
-      "_a": -19.0299651116788,
-      "_x": 323.81296585505913,
-      "_y": -55.517332163948595
+      "_a": 11.01748661328091,
+      "_x": 10.699711077444968,
+      "_y": -458.92520729282984
     },
     {
       "id": "nkg784rm5yx",
@@ -716,8 +716,1129 @@
       "_a": 2.5804142646090042,
       "_x": -105.40639592470373,
       "_y": 62.282192175396034
+    },
+    {
+      "id": "nk2qvkl3vbp",
+      "name": "Filmes",
+      "type": "galaxia",
+      "parent": "core",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790000544085,
+      "orbit": {
+        "r": 610.192856009745,
+        "a0": -22.678791792252397,
+        "speed": 0.015296441914958651
+      },
+      "_a": 4.241703906977815,
+      "_x": -276.7206105718708,
+      "_y": -511.20880457559554
+    },
+    {
+      "id": "nwid0ag429l",
+      "name": "Comidas",
+      "type": "galaxia",
+      "parent": "core",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790000553081,
+      "orbit": {
+        "r": 484.342728526241,
+        "a0": -20.243650196837173,
+        "speed": 0.013160919883775192
+      },
+      "_a": 2.91850013190097,
+      "_x": -472.3397005198593,
+      "_y": 100.72961222961082
+    },
+    {
+      "id": "ns1u7g94c55",
+      "name": "Motos",
+      "type": "galaxia",
+      "parent": "core",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790000565881,
+      "orbit": {
+        "r": 561.6108890346429,
+        "a0": -23.978254357898816,
+        "speed": 0.012091525141456928
+      },
+      "_a": -2.698151940786797,
+      "_x": -507.29231926006594,
+      "_y": -226.50156498000086
+    },
+    {
+      "id": "nfaqzqo4ht6",
+      "name": "Musicas",
+      "type": "galaxia",
+      "parent": "core",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790000573226,
+      "orbit": {
+        "r": 557.2187936289774,
+        "a0": -20.947643713580906,
+        "speed": 0.012275836021564526
+      },
+      "_a": 0.6568308864768575,
+      "_x": 441.2790025633849,
+      "_y": 319.82887145898735
+    },
+    {
+      "id": "n7ri6vj4xeq",
+      "name": "Odeia",
+      "type": "galaxia",
+      "parent": "core",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790000593442,
+      "orbit": {
+        "r": 417.82165098144253,
+        "a0": -19.48508586318621,
+        "speed": 0.012277816868431556
+      },
+      "_a": 2.1228748665127597,
+      "_x": -219.12995115325097,
+      "_y": 334.40359169660763
+    },
+    {
+      "id": "nihm81o6znq",
+      "name": "Piratas do Caribe",
+      "type": "quasar",
+      "parent": "nk2qvkl3vbp",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790000689670,
+      "orbit": {
+        "r": 214.8,
+        "a0": 0,
+        "speed": 0.07602532908908972
+      },
+      "_a": 81.7907859458295,
+      "_x": 213.51642009703437,
+      "_y": 22.04051154418485
+    },
+    {
+      "id": "nycmdfd857g",
+      "name": "Livros",
+      "type": "galaxia",
+      "parent": "core",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790000743516,
+      "orbit": {
+        "r": 580.4,
+        "a0": 1.833408764012745,
+        "speed": 0.01276137228920741
+      },
+      "_a": 24.292387769576624,
+      "_x": 387.2426381093194,
+      "_y": -406.38810218773256
+    },
+    {
+      "id": "ngy13luapdb",
+      "name": "Abobora",
+      "type": "buraco",
+      "parent": "n7ri6vj4xeq",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790000862959,
+      "orbit": {
+        "r": 217.20000000000002,
+        "a0": 0,
+        "speed": 0.05756363496474963
+      },
+      "_a": 21.934035954244234,
+      "_x": -216.84585920956943,
+      "_y": 11.654231440174767
+    },
+    {
+      "id": "n3p1488azsp",
+      "name": "Couve",
+      "type": "buraco",
+      "parent": "n7ri6vj4xeq",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790000876473,
+      "orbit": {
+        "r": 217.20000000000002,
+        "a0": 2.399963229728653,
+        "speed": 0.059117771806148696
+      },
+      "_a": 24.9261871751923,
+      "_x": 212.58307693339844,
+      "_y": -41.872493892660046
+    },
+    {
+      "id": "nv12sr9b7ej",
+      "name": "Ervilha",
+      "type": "buraco",
+      "parent": "n7ri6vj4xeq",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790000886331,
+      "orbit": {
+        "r": 217.20000000000002,
+        "a0": 4.799926459457306,
+        "speed": 0.06435794063916683
+      },
+      "_a": 29.322863289020695,
+      "_x": -108.34938077618773,
+      "_y": -176.950478917787
+    },
+    {
+      "id": "n1lri41bcu3",
+      "name": "Beterraba",
+      "type": "buraco",
+      "parent": "n7ri6vj4xeq",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790000893371,
+      "orbit": {
+        "r": 229.4017406112134,
+        "a0": -24.552357605087504,
+        "speed": 0.07168747642894388
+      },
+      "_a": 2.763424075905757,
+      "_x": -213.19276184430083,
+      "_y": 79.61752773823598
+    },
+    {
+      "id": "n38w9aqckm6",
+      "name": "R15",
+      "type": "pulsar",
+      "parent": "ns1u7g94c55",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790000950110,
+      "orbit": {
+        "r": 211.20000000000002,
+        "a0": 0,
+        "speed": 0.061821197080785074
+      },
+      "_a": 103.14825930933452,
+      "_x": -182.83065507897533,
+      "_y": 99.38423811356532
+    },
+    {
+      "id": "ntve9rie8x7",
+      "name": "Duel of the Fates",
+      "type": "nebulosa",
+      "parent": "nfaqzqo4ht6",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790001028267,
+      "orbit": {
+        "r": 220.8,
+        "a0": 0,
+        "speed": 0.07068287116823378
+      },
+      "_a": 98.09820524268422,
+      "_x": -167.6141511866121,
+      "_y": -135.1056225851157
+    },
+    {
+      "id": "nl2kcigfiy5",
+      "name": "M4rkim - PROTAGONISTAS",
+      "type": "supernova",
+      "parent": "nfaqzqo4ht6",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790001087917,
+      "orbit": {
+        "r": 216,
+        "a0": 2.399963229728653,
+        "speed": 0.06507113846302487
+      },
+      "_a": 92.70984723440871,
+      "_x": 7.097336229946871,
+      "_y": -202.9303642641307
+    },
+    {
+      "id": "nbz8vo3g1z2",
+      "name": "Henrique Mendonça - \"Laços de Redenção\" | Thorfinn (Vinland Saga)",
+      "type": "asteroide",
+      "parent": "nfaqzqo4ht6",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790001112574,
+      "orbit": {
+        "r": 207,
+        "a0": 4.799926459457306,
+        "speed": 0.06783507275002461
+      },
+      "_a": 98.94577508303426,
+      "_x": -2.979352668102296,
+      "_y": -194.55984448802693
+    },
+    {
+      "id": "nniiry1ghjj",
+      "name": "Nikola Tesla (Shuumatsu no Valkyrie) - \"O Hino da Humanidade\" | Henrique Mendonça",
+      "type": "cometa",
+      "parent": "nfaqzqo4ht6",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790001132751,
+      "orbit": {
+        "r": 208.20000000000002,
+        "a0": 0.9167043820063725,
+        "speed": 0.07781905166009997
+      },
+      "_a": 108.91895691323005,
+      "_x": -105.97160087241457,
+      "_y": 168.46011624958555
+    },
+    {
+      "id": "n1un7pcj2hz",
+      "name": "Don't Stop 'Til You Get Enough",
+      "type": "lua",
+      "parent": "nfaqzqo4ht6",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790001253223,
+      "orbit": {
+        "r": 207.60000000000002,
+        "a0": 3.316667611735026,
+        "speed": 0.06897721971403534
+      },
+      "_a": 99.04766077515613,
+      "_x": 18.14021381671297,
+      "_y": -194.39757410800047
+    },
+    {
+      "id": "n5wbe40k1gh",
+      "name": "Michael Jackson - Billie Jean",
+      "type": "anelado",
+      "parent": "nfaqzqo4ht6",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790001298529,
+      "orbit": {
+        "r": 213,
+        "a0": 5.7166308414636795,
+        "speed": 0.06772161244575832
+      },
+      "_a": 99.70501200466653,
+      "_x": 144.38347700904066,
+      "_y": -147.20055319327665
+    },
+    {
+      "id": "nj5v2fiktpq",
+      "name": "Michael Jackson - Smooth Criminal",
+      "type": "quasar",
+      "parent": "nfaqzqo4ht6",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790001335150,
+      "orbit": {
+        "r": 214.8,
+        "a0": 1.833408764012745,
+        "speed": 0.06103867146568864
+      },
+      "_a": 86.54677739515178,
+      "_x": 32.73196088845357,
+      "_y": -199.55396077121637
+    },
+    {
+      "id": "nc7qp97orpd",
+      "name": "Dreams",
+      "type": "planeta",
+      "parent": "nfaqzqo4ht6",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790001519169,
+      "orbit": {
+        "r": 226.5754493368759,
+        "a0": -46.30140077831465,
+        "speed": 0.059896107434199146
+      },
+      "_a": 36.826244480082586,
+      "_x": 145.6047000751771,
+      "_y": -163.1806037225244
+    },
+    {
+      "id": "nnch9jxpjbr",
+      "name": "Nirvana - Come As You Are",
+      "type": "cometa",
+      "parent": "nfaqzqo4ht6",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790001554967,
+      "orbit": {
+        "r": 270.2,
+        "a0": 0.35014991629046577,
+        "speed": 0.06880157739880834
+      },
+      "_a": 95.83737545109574,
+      "_x": -5.07933018386296,
+      "_y": 253.94311887065354
+    },
+    {
+      "id": "n65aqvrt0pt",
+      "name": "Metallica: Enter Sandman",
+      "type": "planeta",
+      "parent": "nfaqzqo4ht6",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790001717473,
+      "orbit": {
+        "r": 274.40000000000003,
+        "a0": 2.7501131460191175,
+        "speed": 0.06725184704885741
+      },
+      "_a": 96.08652387339441,
+      "_x": -72.64826702711433,
+      "_y": 248.73186748720977
+    },
+    {
+      "id": "nr0h5zzv9io",
+      "name": "Guns N' Roses - Paradise City",
+      "type": "buraco",
+      "parent": "nfaqzqo4ht6",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790001822192,
+      "orbit": {
+        "r": 279.2,
+        "a0": 5.150076375747773,
+        "speed": 0.06619482944222048
+      },
+      "_a": 97.01949052520814,
+      "_x": -260.3177333568095,
+      "_y": 94.87630852692436
+    },
+    {
+      "id": "nn5h9x4w4yl",
+      "name": "Guns N' Roses - Sweet Child O' Mine",
+      "type": "supernova",
+      "parent": "nfaqzqo4ht6",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790001862941,
+      "orbit": {
+        "r": 278,
+        "a0": 1.2668542982968383,
+        "speed": 0.06428485728359438
+      },
+      "_a": 90.48548703879655,
+      "_x": -226.1450997795263,
+      "_y": 151.98493083877645
+    },
+    {
+      "id": "ndrm4ljxbzo",
+      "name": "Guns N' Roses - Knockin' On Heaven's Door",
+      "type": "asteroide",
+      "parent": "nfaqzqo4ht6",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790001918708,
+      "orbit": {
+        "r": 269,
+        "a0": 3.66681752802549,
+        "speed": 0.06524666693193176
+      },
+      "_a": 94.22031115812355,
+      "_x": 268.89852401609494,
+      "_y": -6.944798754809432
+    },
+    {
+      "id": "nlymt9sxxid",
+      "name": "Guns N' Roses - November Rain",
+      "type": "cometa",
+      "parent": "nfaqzqo4ht6",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790001946597,
+      "orbit": {
+        "r": 270.2,
+        "a0": 6.066780757754145,
+        "speed": 0.05257612403402974
+      },
+      "_a": 79.03528530646305,
+      "_x": -237.70732570973212,
+      "_y": -120.75714053317998
+    },
+    {
+      "id": "nj9kjhqys88",
+      "name": "Jurassic Word",
+      "type": "asteroide",
+      "parent": "nk2qvkl3vbp",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790001986408,
+      "orbit": {
+        "r": 207,
+        "a0": 2.399963229728653,
+        "speed": 0.05898820308925837
+      },
+      "_a": 65.86159568841713,
+      "_x": -205.70651975883786,
+      "_y": 21.718429526219758
+    },
+    {
+      "id": "na2cn9fz4qj",
+      "name": "Para todos os garotos que já amei",
+      "type": "constel",
+      "parent": "nk2qvkl3vbp",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790002002619,
+      "orbit": {
+        "r": 213.60000000000002,
+        "a0": 4.799926459457306,
+        "speed": 0.06201673604133106
+      },
+      "_a": 71.51976369516946,
+      "_x": -158.18730023572618,
+      "_y": 134.92107224520282
+    },
+    {
+      "id": "nddmpy3zu3j",
+      "name": "A Hipótese do Amor",
+      "type": "pulsar",
+      "parent": "nycmdfd857g",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790002035487,
+      "orbit": {
+        "r": 211.20000000000002,
+        "a0": 0,
+        "speed": 0.06318150909651087
+      },
+      "_a": 74.23942309181533,
+      "_x": 84.57268738849308,
+      "_y": -181.91586770843833
+    },
+    {
+      "id": "nobjt9i08r1",
+      "name": "No Fundo é Amor",
+      "type": "supernova",
+      "parent": "nycmdfd857g",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790002054477,
+      "orbit": {
+        "r": 213.6142911126049,
+        "a0": -67.50518966986142,
+        "speed": 0.060891054217452764
+      },
+      "_a": 4.042907252783664,
+      "_x": -132.5646863968605,
+      "_y": -157.4539824295167
+    },
+    {
+      "id": "nolwlp90ogl",
+      "name": "É assim q acaba",
+      "type": "asteroide",
+      "parent": "nycmdfd857g",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790002074837,
+      "orbit": {
+        "r": 207,
+        "a0": 4.799926459457306,
+        "speed": 0.06039739167846981
+      },
+      "_a": 75.7679609141396,
+      "_x": 193.01142351735075,
+      "_y": 70.31545825918836
+    },
+    {
+      "id": "nnw8qv512b1",
+      "name": "O lado feio do amor",
+      "type": "quasar",
+      "parent": "nycmdfd857g",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790002092781,
+      "orbit": {
+        "r": 214.8,
+        "a0": 0.9167043820063725,
+        "speed": 0.05785092442256577
+      },
+      "_a": 68.89259346529941,
+      "_x": 209.50753861353266,
+      "_y": -44.54480648692931
+    },
+    {
+      "id": "n6tv53v3q2o",
+      "name": "Tipo Kakashi 2",
+      "type": "buraco",
+      "parent": "nfaqzqo4ht6",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790002216896,
+      "orbit": {
+        "r": 279.2,
+        "a0": 2.1835586803032143,
+        "speed": 0.057174015121529344
+      },
+      "_a": 81.53331028548078,
+      "_x": 276.1437137898831,
+      "_y": -38.72628120301458
+    },
+    {
+      "id": "nsfwrfg41iv",
+      "name": "Ultra VEGETTO",
+      "type": "asteroide",
+      "parent": "nfaqzqo4ht6",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790002231735,
+      "orbit": {
+        "r": 269,
+        "a0": 4.5835219100318625,
+        "speed": 0.05189250695402081
+      },
+      "_a": 76.60325899197353,
+      "_x": 96.21056120284486,
+      "_y": 236.1337774736103
+    },
+    {
+      "id": "nhyv94f4bff",
+      "name": "Tipo Itachi",
+      "type": "nebulosa",
+      "parent": "nfaqzqo4ht6",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790002244571,
+      "orbit": {
+        "r": 344.8,
+        "a0": 0.7002998325809315,
+        "speed": 0.04770712836326992
+      },
+      "_a": 66.91130106059,
+      "_x": -203.95561629410605,
+      "_y": -261.328700911201
+    },
+    {
+      "id": "nsu6htw4o3e",
+      "name": "Ultima luz do Futuro",
+      "type": "anelado",
+      "parent": "nfaqzqo4ht6",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790002260986,
+      "orbit": {
+        "r": 337,
+        "a0": 3.100263062309587,
+        "speed": 0.05551842011942603
+      },
+      "_a": 80.1522741310489,
+      "_x": 14.035852431413868,
+      "_y": -316.50512578217155
+    },
+    {
+      "id": "nl56yo955im",
+      "name": "Eren: AO SOM DO ESTRONDO",
+      "type": "planeta",
+      "parent": "nfaqzqo4ht6",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790002283566,
+      "orbit": {
+        "r": 336.40000000000003,
+        "a0": 5.500226292038235,
+        "speed": 0.05608459537751272
+      },
+      "_a": 83.33801156254879,
+      "_x": -28.829811940749487,
+      "_y": 315.05261052281753
+    },
+    {
+      "id": "n4ubkaf5m0f",
+      "name": "Luffy Gear 5 Joyboy",
+      "type": "planeta",
+      "parent": "nfaqzqo4ht6",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790002304943,
+      "orbit": {
+        "r": 336.40000000000003,
+        "a0": 1.617004214587304,
+        "speed": 0.05726757267133919
+      },
+      "_a": 81.09660096571832,
+      "_x": 280.4964012896799,
+      "_y": -174.56366639086994
+    },
+    {
+      "id": "nqwl1f3743u",
+      "name": "Kawasaki Ninja H2R",
+      "type": "quasar",
+      "parent": "ns1u7g94c55",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790002375050,
+      "orbit": {
+        "r": 214.8,
+        "a0": 2.399963229728653,
+        "speed": 0.062284797567398
+      },
+      "_a": 106.32173689121322,
+      "_x": 189.28058167540914,
+      "_y": -95.45468075263122
+    },
+    {
+      "id": "ni2l1uc7jef",
+      "name": "Ducati panigale V4",
+      "type": "pulsar",
+      "parent": "ns1u7g94c55",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790002394871,
+      "orbit": {
+        "r": 259.3239041622913,
+        "a0": -102.26730533990212,
+        "speed": 0.06415060753698915
+      },
+      "_a": 4.767559941497822,
+      "_x": 14.299892036742772,
+      "_y": -243.39357459898812
+    },
+    {
+      "id": "nj09ggi86ab",
+      "name": "S1000rr",
+      "type": "buraco",
+      "parent": "ns1u7g94c55",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790002424531,
+      "orbit": {
+        "r": 253.44303686915256,
+        "a0": -86.80607533773012,
+        "speed": 0.05859847305216714
+      },
+      "_a": 10.965090199836808,
+      "_x": -7.724783226195082,
+      "_y": -238.12576908969874
+    },
+    {
+      "id": "nbt055z8klk",
+      "name": "YAMAHA YZF-R1",
+      "type": "supernova",
+      "parent": "ns1u7g94c55",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790002443080,
+      "orbit": {
+        "r": 259.1259120182193,
+        "a0": -91.37679958525494,
+        "speed": 0.06089845009753051
+      },
+      "_a": 10.231862472650235,
+      "_x": -179.21333355939294,
+      "_y": -175.9302838655726
+    },
+    {
+      "id": "nzdlm9fch14",
+      "name": "R1 Race",
+      "type": "constel",
+      "parent": "ns1u7g94c55",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790002625080,
+      "orbit": {
+        "r": 213.60000000000002,
+        "a0": 5.7166308414636795,
+        "speed": 0.07048342812066653
+      },
+      "_a": 123.31776547010789,
+      "_x": -149.48137948967553,
+      "_y": -143.42403188248858
+    },
+    {
+      "id": "nmrn6p2i6w8",
+      "name": "Kawasaki Ninja-zx-10r",
+      "type": "asteroide",
+      "parent": "ns1u7g94c55",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790002891880,
+      "orbit": {
+        "r": 207,
+        "a0": 1.833408764012745,
+        "speed": 0.07255772338692543
+      },
+      "_a": 122.89549135405933,
+      "_x": -192.737812039215,
+      "_y": -70.97551410178795
+    },
+    {
+      "id": "n3nhfycqowj",
+      "name": "A primeira moto q eu mais amo nesse mundo e é meu sonho de consumo é a Kawasaki Ninja H2R, pq? PQ ELA É SIMPLESMENTE A MOTO MAIS RÁPIDA DO MUNDO",
+      "type": "lua",
+      "parent": "nqwl1f3743u",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790003288467,
+      "orbit": {
+        "r": 78.8,
+        "a0": 0,
+        "speed": 0.12653184274239795
+      },
+      "_a": 204.71078179273692,
+      "_x": -68.87743867514193,
+      "_y": -35.98295495030116
+    },
+    {
+      "id": "n1a8luvqxm6",
+      "name": "E é LINDA DEMAIS",
+      "type": "lua",
+      "parent": "nqwl1f3743u",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790003299758,
+      "orbit": {
+        "r": 78.8,
+        "a0": 2.399963229728653,
+        "speed": 0.10801855147158655
+      },
+      "_a": 177.15883530974506,
+      "_x": 26.36416953176114,
+      "_y": 69.8032795156942
+    },
+    {
+      "id": "nyqp93wr2v9",
+      "name": "Posso mostrar foto tbmmm???",
+      "type": "lua",
+      "parent": "nqwl1f3743u",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790003306565,
+      "orbit": {
+        "r": 78.8,
+        "a0": 4.799926459457306,
+        "speed": 0.12705868253590133
+      },
+      "_a": 210.36306117514317,
+      "_x": -78.19840071964843,
+      "_y": 9.13543268554778
+    },
+    {
+      "id": "nitpp6fri3c",
+      "name": "Ela tem um ronco muito forte e lindo demais",
+      "type": "lua",
+      "parent": "ni2l1uc7jef",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790003326296,
+      "orbit": {
+        "r": 65.60000000000001,
+        "a0": 0,
+        "speed": 0.11333397242413255
+      },
+      "_a": 182.40553191887994,
+      "_x": 64.38003161283257,
+      "_y": 11.836967664622108
+    },
+    {
+      "id": "njyhqyiroes",
+      "name": "E corre muito tbm",
+      "type": "lua",
+      "parent": "ni2l1uc7jef",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790003334484,
+      "orbit": {
+        "r": 65.60000000000001,
+        "a0": 2.399963229728653,
+        "speed": 0.12678549968860556
+      },
+      "_a": 206.45507588169383,
+      "_x": 41.2874278403539,
+      "_y": -47.9188757791399
+    },
+    {
+      "id": "nqhei76rsxx",
+      "name": "E é vermelha né, ela é linda",
+      "type": "lua",
+      "parent": "ni2l1uc7jef",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790003340357,
+      "orbit": {
+        "r": 65.60000000000001,
+        "a0": 4.799926459457306,
+        "speed": 0.12532202865126346
+      },
+      "_a": 206.49965345516696,
+      "_x": 43.518114196576995,
+      "_y": -46.14178160640557
+    },
+    {
+      "id": "nxzxw7qsp58",
+      "name": "AAAAA e sobre essa, ela bate 400km em 10 segundos",
+      "type": "lua",
+      "parent": "nqwl1f3743u",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790003382092,
+      "orbit": {
+        "r": 78.8,
+        "a0": 0.9167043820063725,
+        "speed": 0.10545518452741792
+      },
+      "_a": 171.52840813040575,
+      "_x": -24.159298224189087,
+      "_y": 70.50481457397404
+    },
+    {
+      "id": "nfd9r0ztgz3",
+      "name": "CARAMBA ELA É AINDA MAIS BONITA",
+      "type": "lua",
+      "parent": "nzdlm9fch14",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790003418159,
+      "orbit": {
+        "r": 74.39999999999999,
+        "a0": 0,
+        "speed": 0.10668731090735425
+      },
+      "_a": 173.82611575415802,
+      "_x": -37.757719300096056,
+      "_y": -60.26063267129091
+    },
+    {
+      "id": "nu14vjju5cl",
+      "name": "Começando pela R15 q eu já te falei muito sobre ela na verdade pq vai ser minha primeira moto",
+      "type": "lua",
+      "parent": "n38w9aqckm6",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790003449749,
+      "orbit": {
+        "r": 65.60000000000001,
+        "a0": 0,
+        "speed": 0.1264871376997369
+      },
+      "_a": 207.99792838123537,
+      "_x": 52.11120423541309,
+      "_y": 37.45616801775303
+    },
+    {
+      "id": "nowr6x1ucfe",
+      "name": "Embora ela seja baixa cilindrada ela ainda assim corre muito por causa da aerodinâmica, é uma moto bicilíndrica, tem freio ABS como todas né, E É LINDAAAAAAA",
+      "type": "quasar",
+      "parent": "n38w9aqckm6",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790003458922,
+      "orbit": {
+        "r": 72.80000000000001,
+        "a0": 2.399963229728653,
+        "speed": 0.1183813742811673
+      },
+      "_a": 197.06861537251226,
+      "_x": -47.952530872719755,
+      "_y": 51.48930792088003
+    },
+    {
+      "id": "nf2szr0uoo8",
+      "name": "R25",
+      "type": "asteroide",
+      "parent": "ns1u7g94c55",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790003474792,
+      "orbit": {
+        "r": 207,
+        "a0": 4.2333719937414,
+        "speed": 0.0678180814700739
+      },
+      "_a": 117.38739332716204,
+      "_x": -84.84679945671819,
+      "_y": -177.48340266502754
+    },
+    {
+      "id": "nkxxw0gvdy0",
+      "name": "R3",
+      "type": "planeta",
+      "parent": "ns1u7g94c55",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790003507544,
+      "orbit": {
+        "r": 309.470894391598,
+        "a0": -99.87337417033855,
+        "speed": 0.058672106021831566
+      },
+      "_a": -1.9793525088641957,
+      "_x": -122.94806922654072,
+      "_y": -266.9600111691217
+    },
+    {
+      "id": "n4hbg21wora",
+      "name": "Familia",
+      "type": "galaxia",
+      "parent": "core",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790003568214,
+      "orbit": {
+        "r": 494.7789725335173,
+        "a0": -18.64117809902084,
+        "speed": 0.010405080340735015
+      },
+      "_a": 0,
+      "_x": 0,
+      "_y": 0
+    },
+    {
+      "id": "n16267ozubu",
+      "name": "João Pedro",
+      "type": "quasar",
+      "parent": "n4hbg21wora",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790003715402,
+      "orbit": {
+        "r": 214.8,
+        "a0": 0,
+        "speed": 0.07246597280053546
+      },
+      "_a": 129.02367175703722,
+      "_x": -209.69876330284922,
+      "_y": -43.74252068816184
+    },
+    {
+      "id": "ni1of1507gj",
+      "name": "Victor Miguel",
+      "type": "pulsar",
+      "parent": "n4hbg21wora",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1790003732419,
+      "orbit": {
+        "r": 205.97374616887615,
+        "a0": -104.67356402840355,
+        "speed": 0.06033205915102977
+      },
+      "_a": 2.746008158324912,
+      "_x": -190.06670027164105,
+      "_y": 74.60920139271813
     }
   ],
   "links": [],
-  "savedAt": 1789998451331
+  "savedAt": 1790003733703
 }
