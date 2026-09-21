@@ -854,9 +854,9 @@ var UI = {
         self.closeModal(); self.toast('universo esvaziado');
       });
     });
-    var bSeed = el('button', 'btn danger', 'Restaurar exemplo');
+    var bSeed = el('button', 'btn danger', 'Recomeçar do zero');
     bSeed.addEventListener('click', function () {
-      self.confirm('Restaurar exemplo', 'Isso substitui tudo pelo universo de exemplo. Seus dados atuais serão perdidos.', function () {
+      self.confirm('Recomeçar do zero', 'Isso apaga tudo e devolve o universo ao estado inicial: só a estrela-mãe, com o nome e os tipos originais. Não tem como desfazer.', function () {
         U.reset(); Scene.rebuild(); Scene.select(null); Scene.resetView();
         self.closeModal(); self.toast('exemplo restaurado');
       });
@@ -898,7 +898,7 @@ var UI = {
     var inp = el('input', 'inp');
     inp.type = 'text';
     inp.value = U.data.title;
-    inp.placeholder = 'Universo dela';
+    inp.placeholder = 'Ela';
     box.appendChild(this.field('Nome do universo', inp));
     function ok() {
       U.data.title = inp.value.trim() || 'Universo';

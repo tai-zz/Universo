@@ -60,6 +60,10 @@ mergulha nele — clique, reação, entrada.
 
 ## A estrutura
 
+O universo começa **vazio**: só a estrela-mãe, sozinha no escuro. Tudo o que
+vier depois é você que cria, com **+ Criar astro**. A ideia é mais ou menos
+esta:
+
 ```
 Ela  (estrela-mãe, o centro de tudo)
  ├── Animes            ← galáxia  (campo de conhecimento)

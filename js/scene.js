@@ -322,7 +322,7 @@ var Scene = {
   },
   /* zoom que faz o nível atual caber na tela */
   fitZoom: function () {
-    var self = this, max = 60;
+    var self = this, max = 140;   // piso: um astro sozinho não vira um borrão gigante
     this.order.forEach(function (n) {
       if (!self.vis[n.id]) return;
       var d = Math.hypot(n._x || 0, n._y || 0) + U.type(n.type).size * 2.4 + 26;

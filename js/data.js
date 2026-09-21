@@ -49,65 +49,18 @@ var DEFAULT_TYPES = [
   { id: 'pulsar',    name: 'Pulsar',       shape: 'pulsar',        color: '#7dd3fc', size: 14 }
 ];
 
-/* ── universo inicial (exemplo — pode apagar tudo depois) ─────── */
+/* ── universo inicial: só a estrela-mãe, o resto você cria ────── */
 function seed() {
-  var nodes = [], links = [];
   var t = Date.now();
-
-  function N(o) {
-    o.id = o.id || uid();
-    o.desc = o.desc || '';
-    o.tags = o.tags || [];
-    o.img = o.img || '';
-    o.fav = !!o.fav;
-    o.parent = o.parent || null;
-    o.created = t;
-    nodes.push(o);
-    return o.id;
-  }
-
-  var core = N({ id: 'core', name: 'Ela', type: 'coracao', parent: null,
-    desc: 'O centro do universo.\n\nClique em qualquer astro para ler o que ele guarda. Use "+ Criar astro" para acrescentar tudo que você for descobrindo.' });
-
-  var anime = N({ id: 'g-anime', name: 'Animes', type: 'galaxia', parent: core,
-    desc: 'Tudo que ela assiste, ama e chora junto.' });
-  var comida = N({ id: 'g-comida', name: 'Comidas', type: 'galaxia', parent: core,
-    desc: 'O caminho mais curto até o coração dela.' });
-  var filme = N({ id: 'g-filme', name: 'Filmes & Séries', type: 'galaxia', parent: core });
-  var musica = N({ id: 'g-musica', name: 'Músicas', type: 'nebulosa', parent: core,
-    desc: 'Nebulosa: música é feita de poeira e luz.' });
-  var hobby = N({ id: 'g-hobby', name: 'Hobbies', type: 'galaxia', parent: core });
-
-  var a1 = N({ name: 'Nome do anime', type: 'planeta', parent: anime,
-    desc: 'Substitua por um anime que ela ama. Cada personagem favorito vira uma lua orbitando aqui.',
-    tags: ['exemplo'] });
-  N({ name: 'Personagem favorito', type: 'lua', parent: a1, desc: 'Por que ela gosta desse personagem?' });
-  N({ name: 'Trilha sonora', type: 'lua', parent: a1 });
-
-  var c1 = N({ name: 'Prato preferido', type: 'anelado', parent: comida,
-    desc: 'Onde come, como pede, o que tira, o que nunca pode faltar.', tags: ['exemplo'] });
-  N({ name: 'Sobremesa', type: 'lua', parent: c1 });
-
-  N({ name: 'Filme que ela revê sempre', type: 'planeta', parent: filme, tags: ['exemplo'] });
-  N({ name: 'Música que ela cantou pra mim', type: 'estrela', parent: musica, fav: true });
-
-  N({ name: 'O que ela não gosta', type: 'buraco', parent: core,
-    desc: 'Buraco negro: coisas que é melhor nunca fazer. Nada escapa daqui.' });
-  N({ name: 'Momentos marcantes', type: 'supernova', parent: core,
-    desc: 'Supernova: aqueles dias que explodiram de luz.' });
-  N({ name: 'Sonhos e planos', type: 'cometa', parent: core,
-    desc: 'Cometa: passa de tempos em tempos, mas sempre volta.' });
-  N({ name: 'Manias e detalhes', type: 'constel', parent: hobby,
-    desc: 'Constelação: os pequenos detalhes que, juntos, desenham ela.' });
-
-  links.push({ id: uid('l'), a: a1, b: 'g-musica', label: 'abertura favorita' });
-
   return {
     version: 1,
-    title: 'Universo dela',
+    title: 'Ela',
     types: clone(DEFAULT_TYPES),
-    nodes: nodes,
-    links: links,
+    nodes: [{
+      id: 'core', name: 'Ela', type: 'coracao', parent: null,
+      desc: '', tags: [], img: '', fav: false, created: t
+    }],
+    links: [],
     savedAt: t
   };
 }
