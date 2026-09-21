@@ -96,19 +96,24 @@ var Scene = {
 
   resize: function () {
     // guarda o tamanho anterior para reajustar o zoom junto com a janela
-    var antes = (this.W && this.H) ? Math.min(this.W, this.H) : 0;
+    var antes = (this.W > 0 && this.H > 0) ? Math.min(this.W, this.H) : 0;
 
     this.dpr = Math.min(window.devicePixelRatio || 1, 2);
-    this.W = window.innerWidth;
-    this.H = window.innerHeight;
+    var de = document.documentElement;
+    this.W = window.innerWidth || (de && de.clientWidth) || 0;
+    this.H = window.innerHeight || (de && de.clientHeight) || 0;
 
-    // girar o celular ou mudar a janela não pode deixar o universo perdido
     if (antes) {
+      // girar o celular ou mudar a janela não pode deixar o universo perdido
       var k = Math.min(this.W, this.H) / antes;
       if (isFinite(k) && k > 0) {
         this.cam.z = clamp(this.cam.z * k, 0.05, 5);
         this.cam.tz = clamp(this.cam.tz * k, 0.05, 5);
       }
+    } else if (this.W > 0 && this.H > 0) {
+      // primeira medida válida (a página pode ter carregado em aba oculta,
+      // onde innerWidth é 0 e todo enquadramento sairia errado)
+      this._precisaEnquadrar = true;
     }
     this.canvas.width = Math.floor(this.W * this.dpr);
     this.canvas.height = Math.floor(this.H * this.dpr);
@@ -362,6 +367,8 @@ var Scene = {
   },
   /* zoom que faz o nível atual caber na tela */
   fitZoom: function () {
+    // sem tela medida não há enquadramento possível: não invente um número
+    if (!(this.W > 0) || !(this.H > 0)) return this.cam.tz || 1;
     var self = this, max = 140;   // piso: um astro sozinho não vira um borrão gigante
     this.order.forEach(function (n) {
       if (!self.vis[n.id]) return;
@@ -440,6 +447,15 @@ var Scene = {
 
     try {
       this.layout();
+
+      // a tela acabou de ganhar tamanho de verdade: reenquadra agora que
+      // as posições existem
+      if (this._precisaEnquadrar && this.W > 0 && this.H > 0) {
+        this._precisaEnquadrar = false;
+        this.cam.tz = this.fitZoom();
+        if (this.phase !== 'live') this.cam.z = this.cam.tz * 0.1;
+      }
+
       // durante o Big Bang o enquadramento se ajusta sozinho ao tamanho real do universo
       if (this.phase === 'bang') this.cam.tz = this.fitZoom();
 
