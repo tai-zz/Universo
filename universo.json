@@ -1,0 +1,723 @@
+{
+  "version": 1,
+  "title": "Ela",
+  "types": [
+    {
+      "id": "coracao",
+      "name": "Estrela-Mãe",
+      "shape": "star",
+      "color": "#ffd9a0",
+      "size": 30
+    },
+    {
+      "id": "galaxia",
+      "name": "Galáxia",
+      "shape": "spiral",
+      "color": "#7aa2ff",
+      "size": 34
+    },
+    {
+      "id": "nebulosa",
+      "name": "Nebulosa",
+      "shape": "cloud",
+      "color": "#a78bfa",
+      "size": 30
+    },
+    {
+      "id": "planeta",
+      "name": "Planeta",
+      "shape": "planet",
+      "color": "#6fd3ff",
+      "size": 16
+    },
+    {
+      "id": "anelado",
+      "name": "Planeta anelado",
+      "shape": "ringed",
+      "color": "#f6c177",
+      "size": 17
+    },
+    {
+      "id": "estrela",
+      "name": "Estrela",
+      "shape": "star",
+      "color": "#fff3c4",
+      "size": 14
+    },
+    {
+      "id": "lua",
+      "name": "Lua",
+      "shape": "moon",
+      "color": "#e6eeff",
+      "size": 8
+    },
+    {
+      "id": "cometa",
+      "name": "Cometa",
+      "shape": "comet",
+      "color": "#9ef0ff",
+      "size": 9
+    },
+    {
+      "id": "asteroide",
+      "name": "Asteroide",
+      "shape": "rock",
+      "color": "#c3cfe4",
+      "size": 7
+    },
+    {
+      "id": "buraco",
+      "name": "Buraco Negro",
+      "shape": "blackhole",
+      "color": "#c084fc",
+      "size": 24
+    },
+    {
+      "id": "supernova",
+      "name": "Supernova",
+      "shape": "burst",
+      "color": "#ff9ecd",
+      "size": 22
+    },
+    {
+      "id": "quasar",
+      "name": "Quasar",
+      "shape": "quasar",
+      "color": "#5eead4",
+      "size": 20
+    },
+    {
+      "id": "constel",
+      "name": "Constelação",
+      "shape": "constellation",
+      "color": "#93c5fd",
+      "size": 18
+    },
+    {
+      "id": "binaria",
+      "name": "Estrela Binária",
+      "shape": "binary",
+      "color": "#ffb4a2",
+      "size": 15
+    },
+    {
+      "id": "pulsar",
+      "name": "Pulsar",
+      "shape": "pulsar",
+      "color": "#7dd3fc",
+      "size": 14
+    }
+  ],
+  "nodes": [
+    {
+      "id": "core",
+      "name": "Ela",
+      "type": "coracao",
+      "parent": null,
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789995518234,
+      "orbit": {
+        "r": 0,
+        "a0": 0,
+        "speed": 0
+      },
+      "_x": 0,
+      "_y": 0,
+      "_a": 0
+    },
+    {
+      "id": "nmvp5ole9ag",
+      "name": "Anime",
+      "type": "galaxia",
+      "parent": "core",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789995989896,
+      "orbit": {
+        "r": 329.1550357994819,
+        "a0": -19.18819203470317,
+        "speed": 0.013200757790235124
+      },
+      "_a": -19.0299651116788,
+      "_x": 323.81296585505913,
+      "_y": -55.517332163948595
+    },
+    {
+      "id": "nkg784rm5yx",
+      "name": "Dragon Ball",
+      "type": "cometa",
+      "parent": "nmvp5ole9ag",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789996358841,
+      "orbit": {
+        "r": 208.20000000000002,
+        "a0": 0,
+        "speed": 0.06233012253484781
+      },
+      "_a": 84.04720876044695,
+      "_x": -148.6269041424277,
+      "_y": 137.0508503488659
+    },
+    {
+      "id": "nnw7x3jmtdi",
+      "name": "Attack on Titan",
+      "type": "pulsar",
+      "parent": "nmvp5ole9ag",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789996389174,
+      "orbit": {
+        "r": 370.8612280674866,
+        "a0": -41.3648166367209,
+        "speed": 0.05918628056536613
+      },
+      "_a": 38.443171477702876,
+      "_x": 272.85192096277495,
+      "_y": 236.1063694869931
+    },
+    {
+      "id": "n1peavgn2af",
+      "name": "Naruto",
+      "type": "supernova",
+      "parent": "nmvp5ole9ag",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789996400727,
+      "orbit": {
+        "r": 344.20536231863167,
+        "a0": -83.45074305195327,
+        "speed": 0.06441019215364578
+      },
+      "_a": 3.401274015899716,
+      "_x": -332.6647914507889,
+      "_y": -83.07955888951035
+    },
+    {
+      "id": "nm7l8v5nb2c",
+      "name": "Jujutsu Kaisen",
+      "type": "nebulosa",
+      "parent": "nmvp5ole9ag",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789996412100,
+      "orbit": {
+        "r": 277.7898620801155,
+        "a0": -85.13578773263941,
+        "speed": 0.06267525190094975
+      },
+      "_a": -0.6231994943017725,
+      "_x": 225.5696113635864,
+      "_y": -152.40052153379042
+    },
+    {
+      "id": "nz05ajynicx",
+      "name": "Death Note",
+      "type": "pulsar",
+      "parent": "nmvp5ole9ag",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789996421553,
+      "orbit": {
+        "r": 211.20000000000002,
+        "a0": 3.316667611735026,
+        "speed": 0.07046128497123838
+      },
+      "_a": 98.3281016771193,
+      "_x": -124.77983637862768,
+      "_y": -160.1739932014062
+    },
+    {
+      "id": "noe7b08o0jj",
+      "name": "Kakegurui",
+      "type": "nebulosa",
+      "parent": "nmvp5ole9ag",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789996445119,
+      "orbit": {
+        "r": 230.17789659650583,
+        "a0": -56.80601962989946,
+        "speed": 0.06446430260376686
+      },
+      "_a": 30.11896107274992,
+      "_x": 62.24506250091156,
+      "_y": -208.30581610060835
+    },
+    {
+      "id": "nir11wcob6y",
+      "name": "One Piece",
+      "type": "quasar",
+      "parent": "nmvp5ole9ag",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789996458922,
+      "orbit": {
+        "r": 322.7863714254074,
+        "a0": -79.36586253079027,
+        "speed": 0.058032243467631216
+      },
+      "_a": -1.1140015813082726,
+      "_x": 142.3725969358877,
+      "_y": -272.3098802837272
+    },
+    {
+      "id": "ncsnmu5okir",
+      "name": "My Hero Academia",
+      "type": "asteroide",
+      "parent": "nmvp5ole9ag",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789996471011,
+      "orbit": {
+        "r": 207,
+        "a0": 4.2333719937414,
+        "speed": 0.07455431045784314
+      },
+      "_a": 104.76392512298074,
+      "_x": -95.48339179692977,
+      "_y": -172.64277043318947
+    },
+    {
+      "id": "nnewkmror5a",
+      "name": "Demon Slayer",
+      "type": "anelado",
+      "parent": "nmvp5ole9ag",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789996479598,
+      "orbit": {
+        "r": 309.18027561508165,
+        "a0": -81.0998064416518,
+        "speed": 0.06337350823640231
+      },
+      "_a": 4.354324883838871,
+      "_x": -108.35586614655132,
+      "_y": -272.1968780601395
+    },
+    {
+      "id": "nvi0z2yoy2o",
+      "name": "Bleach",
+      "type": "nebulosa",
+      "parent": "nmvp5ole9ag",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789996488576,
+      "orbit": {
+        "r": 282.8,
+        "a0": 2.7501131460191175,
+        "speed": 0.053763941576203525
+      },
+      "_a": 75.24650875174427,
+      "_x": 279.55157466691156,
+      "_y": -40.17614434791683
+    },
+    {
+      "id": "nfmsz2gxle8",
+      "name": "Vegeta",
+      "type": "lua",
+      "parent": "nkg784rm5yx",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789996892048,
+      "orbit": {
+        "r": 70,
+        "a0": 0,
+        "speed": 0.11001187058434425
+      },
+      "_a": 102.04039944055675,
+      "_x": 4.2926310743691545,
+      "_y": 65.67616146053825
+    },
+    {
+      "id": "n1elqwvy94p",
+      "name": "Eren",
+      "type": "binaria",
+      "parent": "nnw7x3jmtdi",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789996922809,
+      "orbit": {
+        "r": 69.80000000000001,
+        "a0": 0,
+        "speed": 0.12981398089104743
+      },
+      "_a": 87.73059897500579,
+      "_x": 67.89779517575533,
+      "_y": -15.213179382220288
+    },
+    {
+      "id": "nb1eof6ypo6",
+      "name": "Madara",
+      "type": "asteroide",
+      "parent": "n1peavgn2af",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789996944246,
+      "orbit": {
+        "r": 115.92552972659263,
+        "a0": -81.35468825541933,
+        "speed": 0.1215511362867546
+      },
+      "_a": 3.1890741632399795,
+      "_x": -115.79487758394416,
+      "_y": -5.172116080386696
+    },
+    {
+      "id": "n32q1xwzsro",
+      "name": "Gaara",
+      "type": "cometa",
+      "parent": "n1peavgn2af",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789996994916,
+      "orbit": {
+        "r": 70.60000000000001,
+        "a0": 2.399963229728653,
+        "speed": 0.11014240073118481
+      },
+      "_a": 79.00848573395444,
+      "_x": -62.98720989768747,
+      "_y": -29.976589525654845
+    },
+    {
+      "id": "nfmnfts0g25",
+      "name": "Itachi",
+      "type": "lua",
+      "parent": "n1peavgn2af",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789997025101,
+      "orbit": {
+        "r": 99.91215935810334,
+        "a0": -77.06719326212374,
+        "speed": 0.11451666483004179
+      },
+      "_a": 2.5838079554049926,
+      "_x": -84.76845026667189,
+      "_y": 49.71124413736455
+    },
+    {
+      "id": "npqeexf2cbl",
+      "name": "Sukuna",
+      "type": "pulsar",
+      "parent": "nm7l8v5nb2c",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789997113569,
+      "orbit": {
+        "r": 73.60000000000001,
+        "a0": 0,
+        "speed": 0.09965293999913676
+      },
+      "_a": 83.90667929689171,
+      "_x": -44.80341101102893,
+      "_y": 54.88838902778976
+    },
+    {
+      "id": "n9l643y2rig",
+      "name": "Toji",
+      "type": "buraco",
+      "parent": "nm7l8v5nb2c",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789997133256,
+      "orbit": {
+        "r": 139.52936057282437,
+        "a0": -53.63455015444448,
+        "speed": 0.11534349921212692
+      },
+      "_a": 43.48340740362707,
+      "_x": 122.52272744734516,
+      "_y": -62.75247182089675
+    },
+    {
+      "id": "n18xjty3g17",
+      "name": "Light",
+      "type": "quasar",
+      "parent": "nz05ajynicx",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789997165035,
+      "orbit": {
+        "r": 77.2,
+        "a0": 0,
+        "speed": 0.1031820700763892
+      },
+      "_a": 88.5535352733338,
+      "_x": 64.19407079704165,
+      "_y": 40.310125057509964
+    },
+    {
+      "id": "nxo6dmq3xsg",
+      "name": "Yumeko Jabami",
+      "type": "binaria",
+      "parent": "noe7b08o0jj",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789997188048,
+      "orbit": {
+        "r": 74.2,
+        "a0": 0,
+        "speed": 0.12921324742840404
+      },
+      "_a": 92.17336556028935,
+      "_x": -35.808715420633156,
+      "_y": -61.08825537836994
+    },
+    {
+      "id": "naqtv4s4f2f",
+      "name": "Katakuri",
+      "type": "constel",
+      "parent": "nir11wcob6y",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789997210439,
+      "orbit": {
+        "r": 86.06532826128291,
+        "a0": -89.11810342813948,
+        "speed": 0.11777578954300702
+      },
+      "_a": 47.62036555142569,
+      "_x": -75.6743793223802,
+      "_y": -38.53574733026377
+    },
+    {
+      "id": "nsw1oro4oq2",
+      "name": "Doflamingo",
+      "type": "anelado",
+      "parent": "nir11wcob6y",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789997222954,
+      "orbit": {
+        "r": 114.24135747235135,
+        "a0": -66.88468888502977,
+        "speed": 0.11145575160508242
+      },
+      "_a": 62.516174336358674,
+      "_x": 108.59622092596118,
+      "_y": -33.33951627732718
+    },
+    {
+      "id": "nynaay1567i",
+      "name": "Sanji",
+      "type": "planeta",
+      "parent": "nir11wcob6y",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789997245614,
+      "orbit": {
+        "r": 199.60519037621123,
+        "a0": -71.34627859881897,
+        "speed": 0.09194758255556293
+      },
+      "_a": 35.40547160217437,
+      "_x": -132.04284021057936,
+      "_y": -140.7080482512802
+    },
+    {
+      "id": "nvl47a45gx0",
+      "name": "Ace",
+      "type": "estrela",
+      "parent": "nir11wcob6y",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789997259492,
+      "orbit": {
+        "r": 119.63521251494792,
+        "a0": -68.4180301800005,
+        "speed": 0.11832084583510265
+      },
+      "_a": 68.95325275205886,
+      "_x": 118.07292340560262,
+      "_y": -18.114676367859804
+    },
+    {
+      "id": "nrcguai6ab4",
+      "name": "Luffy",
+      "type": "buraco",
+      "parent": "nir11wcob6y",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789997297584,
+      "orbit": {
+        "r": 154.8517145995995,
+        "a0": -78.5491614616605,
+        "speed": 0.10551261037793784
+      },
+      "_a": 43.95167557028486,
+      "_x": 154.77911950476658,
+      "_y": -4.456599358294615
+    },
+    {
+      "id": "nmxvppxc2lf",
+      "name": "Bakugou",
+      "type": "lua",
+      "parent": "ncsnmu5okir",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789997567523,
+      "orbit": {
+        "r": 50.2,
+        "a0": 0,
+        "speed": 0.15645483441985253
+      },
+      "_a": 153.03904989277467,
+      "_x": -31.24451549470404,
+      "_y": 36.93398941661271
+    },
+    {
+      "id": "nyolr9deu9c",
+      "name": "Tomioka",
+      "type": "lua",
+      "parent": "nnewkmror5a",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789997696688,
+      "orbit": {
+        "r": 72.2,
+        "a0": 0,
+        "speed": 0.11934352972976231
+      },
+      "_a": 130.5106231500302,
+      "_x": 9.683652905702996,
+      "_y": -67.25479524281292
+    },
+    {
+      "id": "no9bj69fl9w",
+      "name": "Obanai",
+      "type": "lua",
+      "parent": "nnewkmror5a",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789997731700,
+      "orbit": {
+        "r": 72.2,
+        "a0": 2.399963229728653,
+        "speed": 0.11893255790012783
+      },
+      "_a": 132.4611595050539,
+      "_x": 62.861146449248714,
+      "_y": 33.384113790803006
+    },
+    {
+      "id": "nqacuwcfx9h",
+      "name": "Kokushibo",
+      "type": "estrela",
+      "parent": "nnewkmror5a",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789997747237,
+      "orbit": {
+        "r": 120.59687301325344,
+        "a0": -132.7323769228453,
+        "speed": 0.12098965469658797
+      },
+      "_a": -0.4215992467196372,
+      "_x": 110.03688782819215,
+      "_y": -46.38963425909862
+    },
+    {
+      "id": "n3djjwige17",
+      "name": "Muzan",
+      "type": "binaria",
+      "parent": "nnewkmror5a",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789997768971,
+      "orbit": {
+        "r": 76.4,
+        "a0": 0.9167043820063725,
+        "speed": 0.12255766126312556
+      },
+      "_a": 134.94220856710612,
+      "_x": -75.58410877502331,
+      "_y": 10.467502548634036
+    },
+    {
+      "id": "nzl1661h7yh",
+      "name": "Yoruichi",
+      "type": "nebulosa",
+      "parent": "nvi0z2yoy2o",
+      "desc": "",
+      "tags": [],
+      "img": "",
+      "fav": false,
+      "created": 1789997807753,
+      "orbit": {
+        "r": 124.50134397289797,
+        "a0": -113.2373015802419,
+        "speed": 0.1016762566991743
+      },
+      "_a": 2.5804142646090042,
+      "_x": -105.40639592470373,
+      "_y": 62.282192175396034
+    }
+  ],
+  "links": [],
+  "savedAt": 1789998451331
+}
