@@ -46,6 +46,17 @@ var UI = {
     this.buildCrumbs();
     this.bind();
 
+    // se houver um universo publicado junto com o site, ele manda
+    U.fetchPublished(function (trocou) {
+      if (!trocou) return;
+      Scene.rebuild();
+      Scene.view = null;
+      Scene.select(null);
+      Scene.resetView();
+      self.buildCrumbs();
+      $('#univTitle').textContent = U.data.title;
+    });
+
     // se já tinha dado salvo, o intro continua — o Big Bang é sempre a entrada
   },
 
@@ -841,6 +852,20 @@ var UI = {
     wrap.appendChild(bExp); wrap.appendChild(bImp); wrap.appendChild(file);
     box.appendChild(wrap);
 
+    /* publicar: gera o arquivo com o nome exato que o site procura */
+    box.appendChild(el('div', null, '<div style="height:26px"></div>'));
+    var ph = el('div', null, 'Publicar para ela');
+    ph.style.cssText = 'font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:#7d90bb;font-weight:600';
+    box.appendChild(ph);
+    box.appendChild(el('div', 'hintline',
+      'Gera o <b style="color:#dbe6ff">universo.json</b>. Coloque esse arquivo na pasta do site e ' +
+      'envie para o GitHub — a partir daí, quem abrir o link vê este universo, ' +
+      'e não uma estrela sozinha.'));
+    var bPub = el('button', 'btn primary', '★ Gerar universo.json');
+    bPub.style.marginTop = '10px';
+    bPub.addEventListener('click', function () { self.exportFile('universo.json'); });
+    box.appendChild(bPub);
+
     box.appendChild(el('div', null, '<div style="height:26px"></div>'));
     var dh = el('div', null, 'Zona de perigo');
     dh.style.cssText = 'font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:#ff8fa3;font-weight:600';
@@ -869,17 +894,17 @@ var UI = {
     ]);
   },
 
-  exportFile: function () {
+  exportFile: function (nome) {
     var blob = new Blob([U.exportJSON()], { type: 'application/json' });
     var a = document.createElement('a');
     var d = new Date();
     var stamp = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
     a.href = URL.createObjectURL(blob);
-    a.download = 'universo-' + stamp + '.json';
+    a.download = nome || ('universo-' + stamp + '.json');
     document.body.appendChild(a);
     a.click();
     setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
-    this.toast('backup baixado');
+    this.toast(nome ? 'universo.json gerado' : 'backup baixado');
   },
 
   confirm: function (title, msg, fn) {

@@ -116,6 +116,39 @@ inteira. O astro clicado responde com a animação e o anel de seleção.
 Escrever, editar e ler as anotações é coisa de tela grande. O corte é só de
 largura: girar o celular ou abrir no computador libera tudo de novo, na hora.
 
+## Como mandar o universo para ela
+
+O que você escreve fica no **seu** navegador. Mandar o link, sozinho, manda uma
+estrela vazia. Para ela ver o que você construiu, o universo precisa ser
+**publicado junto com o site**:
+
+1. No site, clique em **Ela** (canto superior esquerdo) → **Backup dos dados**
+2. Clique em **★ Gerar universo.json**
+3. Mova o arquivo baixado para a pasta do projeto (ao lado do `index.html`)
+4. Envie para o GitHub:
+
+```bash
+git add universo.json && git commit -m "Publica o universo" && git push
+```
+
+Em 1 ou 2 minutos o site no ar já mostra tudo. Quem abrir o link vê o universo
+que você publicou, mesmo que nunca tenha escrito nada.
+
+**Para atualizar depois:** repita os 4 passos. O navegador de quem já abriu
+detecta que o arquivo mudou e troca pela versão nova sozinho.
+
+Enquanto o arquivo não muda, nada é sobrescrito — você pode continuar editando
+no site à vontade que o seu trabalho não se perde ao recarregar a página.
+
+> **Atenção:** o repositório é público. Tudo que entrar no `universo.json` fica
+> visível para quem achar o link, e fica no histórico do Git. Se quiser algo
+> só entre vocês dois, é melhor deixar o repositório privado e publicar o site
+> pelo Netlify ou Vercel, que fazem isso de graça a partir de repositório privado.
+
+O arquivo `universo-AAAA-MM-DD.json` do botão **Exportar backup** é diferente:
+ele é o seu backup privado e está bloqueado no `.gitignore`, então nunca vai
+para o GitHub por acidente. Só o `universo.json` é publicado.
+
 ## Onde os dados ficam
 
 Tudo é salvo **automaticamente no seu próprio navegador** (localStorage), neste

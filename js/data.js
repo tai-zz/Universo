@@ -5,6 +5,8 @@
 'use strict';
 
 var STORAGE_KEY = 'universo.v1';
+var PUB_KEY = 'universo.publicado';   // carimbo do universo publicado já aplicado
+var PUB_FILE = 'universo.json';       // universo publicado junto com o site
 var GOLDEN = 2.399963229728653;   // ângulo áureo — distribui órbitas sem colidir
 
 function uid(p) {
@@ -86,6 +88,33 @@ var U = {
     }
     this.data = this.normalize(seed());
     this.save();
+  },
+
+  /* ── universo publicado ──────────────────────────────────────
+     Se existe um universo.json ao lado do site, ele é a versão
+     oficial: quem abrir o link vê o que você publicou, mesmo sem
+     nunca ter escrito nada aqui. Só é aplicado quando o arquivo
+     muda, para não atropelar o que você está editando agora.      */
+  fetchPublished: function (done) {
+    var self = this;
+    done = done || function () {};
+    if (location.protocol === 'file:' || typeof fetch !== 'function') { done(false); return; }
+
+    fetch(PUB_FILE, { cache: 'no-store' })
+      .then(function (r) { if (!r.ok) throw new Error('sem universo publicado'); return r.json(); })
+      .then(function (d) {
+        if (!d || !d.nodes || !d.nodes.length) throw new Error('arquivo vazio');
+        var stamp = String(d.savedAt || d.nodes.length);
+        var applied = null;
+        try { applied = localStorage.getItem(PUB_KEY); } catch (e) {}
+        if (stamp === applied) { done(false); return; }   // esta versão já está aqui
+        self.data = self.normalize(d);
+        self.data.nodes.forEach(function (n) { if (!n.orbit) self.assignOrbit(n); });
+        try { localStorage.setItem(PUB_KEY, stamp); } catch (e) {}
+        self.save();
+        done(true);
+      })
+      .catch(function () { done(false); });
   },
 
   normalize: function (d) {
