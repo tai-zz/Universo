@@ -22,6 +22,34 @@ function rgb(hex) {
 }
 function rgba(hex, a) { return 'rgba(' + rgb(hex) + ',' + a + ')'; }
 
+/* quebra um nome comprido em linhas, sem estourar a tela */
+function wrapLabel(txt, max, maxLines) {
+  txt = String(txt || '');
+  if (txt.length <= max) return [txt];
+  var palavras = txt.split(/\s+/), linhas = [], cur = '', i, p;
+  for (i = 0; i < palavras.length; i++) {
+    p = palavras[i];
+    while (p.length > max) {                 // palavra sozinha maior que a linha
+      if (cur) { linhas.push(cur); cur = ''; }
+      linhas.push(p.slice(0, max - 1) + '-');
+      p = p.slice(max - 1);
+      if (linhas.length >= maxLines) break;
+    }
+    if (linhas.length >= maxLines) break;
+    if (!cur) cur = p;
+    else if ((cur + ' ' + p).length <= max) cur += ' ' + p;
+    else { linhas.push(cur); cur = p; if (linhas.length >= maxLines) break; }
+  }
+  if (linhas.length < maxLines && cur) { linhas.push(cur); cur = ''; }
+  // sobrou texto? a última linha termina em reticências
+  var usado = linhas.join(' ').replace(/-$/, '').length;
+  if (usado < txt.replace(/\s+/g, ' ').length - 1) {
+    var ult = linhas[linhas.length - 1] || '';
+    linhas[linhas.length - 1] = ult.slice(0, Math.max(1, max - 1)).replace(/[\s,.;:]+$/, '') + '…';
+  }
+  return linhas;
+}
+
 var Scene = {
   canvas: null, ctx: null,
   W: 0, H: 0, dpr: 1,
@@ -584,8 +612,11 @@ var Scene = {
       ctx.restore();
 
       var d = n.id === (self.viewNode() || {}).id ? 0 : 1;
+      // nomes longos viram várias linhas em vez de atravessar a tela
+      var maxCh = Math.max(16, Math.min(34, Math.floor(self.W / 17)));
       labels.push({
         n: n, ty: ty, x: s[0], y: s[1] + r + 15, d: d, r: r, hot: isHot, kids: kidCount,
+        linhas: wrapLabel(n.name, maxCh, isHot ? 5 : 3),
         a: dim * (isHot ? 1 : 0.92),
         prio: (isHot ? 100 : 0) + (n.fav ? 20 : 0) + (10 - d) + ty.size / 10
       });
@@ -601,7 +632,9 @@ var Scene = {
     labels.sort(function (a, b) { return b.prio - a.prio; });
     var boxes = [];
     labels = labels.filter(function (L) {
-      var w = L.n.name.length * 6.2 + 10, h = 17;
+      var maior = 0;
+      L.linhas.forEach(function (t) { if (t.length > maior) maior = t.length; });
+      var w = maior * 6.2 + 10, h = 15 * L.linhas.length + 6;
       var b = [L.x - w / 2, L.y - 3, L.x + w / 2, L.y + h];
       for (var i = 0; i < boxes.length; i++) {
         var o = boxes[i];
@@ -621,19 +654,23 @@ var Scene = {
       ctx.shadowColor = 'rgba(0,0,0,.9)';
       ctx.shadowBlur = 8;
       ctx.fillStyle = 'rgba(' + (L.hot ? '255,255,255' : '218,230,255') + ',' + L.a.toFixed(2) + ')';
-      ctx.fillText(L.n.name, L.x, L.y);
+      var lh = size + 3, li;
+      for (li = 0; li < L.linhas.length; li++) {
+        ctx.fillText(L.linhas[li], L.x, L.y + li * lh);
+      }
+      var baixo = L.y + L.linhas.length * lh;
       ctx.shadowBlur = 0;
       if (L.hot || L.kids) {
         ctx.font = '400 10px ' + FONT;
         ctx.fillStyle = rgba(L.ty.color, (L.hot ? 0.9 : 0.5) * L.a);
         var sub = L.ty.name.toUpperCase();
         if (L.kids && L.d) sub = (L.hot ? '▸ ENTRAR · ' : '') + L.kids + (L.kids > 1 ? ' ASTROS' : ' ASTRO');
-        ctx.fillText(sub, L.x, L.y + size + 4);
+        ctx.fillText(sub, L.x, baixo + 1);
       }
       if (L.n.fav) {
         ctx.font = '400 10px ' + FONT;
         ctx.fillStyle = 'rgba(255,158,205,' + (0.9 * L.a) + ')';
-        ctx.fillText('♥', L.x, L.y - size - 6 - L.r * 0);
+        ctx.fillText('♥', L.x, L.y - size - 6);
       }
     });
   },

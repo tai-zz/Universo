@@ -18,7 +18,17 @@ E abra `http://localhost:4173`.
 ## A entrada
 
 A tela começa preta, com um único ponto branco no meio.
-**Clique no ponto** → Big Bang → o universo nasce em volta de você.
+**Clique no ponto** → aparece o campo de senha → digite **R15** → Big Bang →
+o universo nasce em volta de você.
+
+A senha não diferencia maiúscula de minúscula, e o navegador lembra dela: quem
+já entrou uma vez vai direto para o Big Bang. Para trocar a senha, mude a linha
+`var SENHA = 'R15';` no começo do `js/ui.js`.
+
+> **A senha é um portão, não um cofre.** Ela segura quem chegar sem querer, mas
+> não segura quem for olhar o código: a senha está escrita no `js/ui.js` e o
+> `universo.json` pode ser lido direto no repositório, que é público. Para
+> privacidade de verdade, o caminho é repositório privado + Netlify ou Vercel.
 
 ## Como se navega
 

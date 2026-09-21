@@ -29,6 +29,11 @@ var COLORS = ['#7aa2ff', '#6fd3ff', '#5eead4', '#a7f3a0', '#ffe08a', '#f6c177',
 /* mesmo ponto de corte do CSS — uma fonte de verdade só */
 var MOBILE = window.matchMedia('(max-width: 760px)');
 
+/* Trinco da entrada. Não é segurança: é um portão — segura curioso,
+   não segura quem for olhar o código. Para trocar, mude SENHA. */
+var SENHA = 'R15';
+var CHAVE_KEY = 'universo.chave';
+
 var UI = {
   toastTimer: null,
 
@@ -103,15 +108,58 @@ var UI = {
   bind: function () {
     var self = this;
 
-    /* ── Big Bang ── */
-    var intro = $('#intro');
-    intro.addEventListener('click', function () {
+    /* ── Trinco + Big Bang ── */
+    var intro = $('#intro'), lock = $('#lock'), lockInput = $('#lockInput'), lockMsg = $('#lockMsg');
+
+    function jaAberto() {
+      try { return localStorage.getItem(CHAVE_KEY) === '1'; } catch (e) { return false; }
+    }
+    function abrirUniverso() {
       if (intro.classList.contains('boom')) return;
       intro.classList.add('boom');
       Scene.bigBang();
       setTimeout(function () { document.body.classList.add('live'); }, 900);
       setTimeout(function () { intro.classList.add('gone'); }, 700);
       setTimeout(function () { intro.style.display = 'none'; }, 1800);
+    }
+
+    intro.addEventListener('click', function (e) {
+      if (intro.classList.contains('boom')) return;
+      if (e.target.closest('#lock')) return;      // cliques dentro do campo não contam
+      if (jaAberto()) { abrirUniverso(); return; }
+      if (!lock.classList.contains('open')) {
+        lock.classList.add('open');
+        $('#introHint').style.display = 'none';
+      }
+      lockInput.focus();
+    });
+
+    function tentar() {
+      var tentativa = (lockInput.value || '').trim().toUpperCase();
+      if (tentativa === SENHA) {
+        try { localStorage.setItem(CHAVE_KEY, '1'); } catch (er) {}
+        lock.classList.remove('erro');
+        lockMsg.textContent = 'entrando…';
+        abrirUniverso();
+      } else {
+        lock.classList.remove('erro');
+        void lock.offsetWidth;                   // reinicia a animação
+        lock.classList.add('erro');
+        lockMsg.textContent = 'não é essa';
+        lockInput.value = '';
+        lockInput.focus();
+      }
+    }
+    lock.addEventListener('submit', function (e) { e.preventDefault(); tentar(); });
+    $('#lockGo').addEventListener('click', function (e) { e.preventDefault(); tentar(); });
+    lockInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); tentar(); }
+    });
+    lockInput.addEventListener('input', function () {
+      if (lock.classList.contains('erro')) {
+        lock.classList.remove('erro');
+        lockMsg.textContent = 'senha';
+      }
     });
 
     /* ── topo ── */
