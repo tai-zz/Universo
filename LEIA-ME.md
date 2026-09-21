@@ -174,6 +174,21 @@ Por isso, duas coisas importantes:
 Limpar os dados do navegador apaga o universo — o backup `.json` é a sua
 garantia.
 
+## Ao mexer no código
+
+O `index.html` carrega os arquivos com `?v=2` no fim:
+
+```html
+<link rel="stylesheet" href="style.css?v=2">
+<script src="js/scene.js?v=2"></script>
+```
+
+Esse número existe porque o navegador guarda css e js em cache por vários
+minutos. Sem ele, quem já abriu o site continuaria rodando a versão antiga
+mesmo depois da correção ir para o ar. **Ao mudar qualquer css ou js, suba o
+número em todos eles** (v=2 → v=3) antes de publicar. Trocar só o
+`universo.json` não precisa: ele já é buscado sem cache.
+
 ## Arquivos
 
 ```
