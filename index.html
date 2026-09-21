@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Universo</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23050a18'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%23fff'/%3E%3Cellipse cx='16' cy='16' rx='13' ry='5' fill='none' stroke='%235b9cff' stroke-width='1.5'/%3E%3Cellipse cx='16' cy='16' rx='13' ry='5' fill='none' stroke='%235b9cff' stroke-width='1.5' transform='rotate(60 16 16)'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<canvas id="sky"></canvas>
+
+<!-- ───────────── INTRO / SINGULARIDADE ───────────── -->
+<div id="intro">
+  <div id="singularity"></div>
+  <div id="introHint">clique no ponto</div>
+</div>
+
+<!-- ───────────── BARRA SUPERIOR ───────────── -->
+<header id="topbar" class="ui">
+  <div class="brand" id="brand" title="Clique para renomear o universo">
+    <svg viewBox="0 0 24 24" class="brand-ico" aria-hidden="true">
+      <circle cx="12" cy="12" r="3.2"/>
+      <ellipse cx="12" cy="12" rx="10.5" ry="4.2" fill="none" stroke-width="1.2"/>
+      <ellipse cx="12" cy="12" rx="10.5" ry="4.2" fill="none" stroke-width="1.2" transform="rotate(60 12 12)"/>
+    </svg>
+    <span id="univTitle">Universo</span>
+  </div>
+
+  <div class="actions">
+    <button id="btnNew" class="btn primary">+ Criar astro</button>
+  </div>
+</header>
+
+<!-- ───────────── MENU DISCRETO (no nome do universo) ───────────── -->
+<div id="brandMenu">
+  <div class="mi" data-act="rename">Renomear universo</div>
+  <div class="mi" data-act="types">Tipos de astro</div>
+  <div class="mi" data-act="data">Backup dos dados</div>
+  <div class="mi" data-act="help">Como funciona</div>
+</div>
+
+<!-- ───────────── CAMINHO / NÍVEL ATUAL ───────────── -->
+<div id="crumbs" class="ui"></div>
+
+<!-- ───────────── CONTROLES ───────────── -->
+<div id="controls" class="ui">
+  <button class="cbtn" id="cZoomIn"  title="Aproximar">+</button>
+  <button class="cbtn" id="cZoomOut" title="Afastar">−</button>
+  <button class="cbtn" id="cReset"   title="Voltar ao universo">◎</button>
+  <button class="cbtn" id="cPause"   title="Pausar órbitas">❚❚</button>
+</div>
+
+<!-- ───────────── PAINEL LATERAL ───────────── -->
+<aside id="panel" class="ui"></aside>
+
+<!-- ───────────── BANNER DE CONEXÃO ───────────── -->
+<div id="banner" class="ui"></div>
+
+<!-- ───────────── MODAIS / TOAST ───────────── -->
+<div id="modalRoot"></div>
+<div id="toast"></div>
+
+<script src="js/data.js"></script>
+<script src="js/scene.js"></script>
+<script src="js/ui.js"></script>
+</body>
+</html>

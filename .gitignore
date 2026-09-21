@@ -1,0 +1,9 @@
+# Backups exportados do universo — dados pessoais, nunca publicar
+universo-*.json
+*.backup.json
+
+# Lixo de sistema
+Thumbs.db
+desktop.ini
+.DS_Store
+node_modules/

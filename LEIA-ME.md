@@ -1,0 +1,143 @@
+# Universo ✦
+
+Um mapa estelar navegável para guardar tudo que você descobre sobre alguém.
+Cada galáxia é um campo de conhecimento, cada planeta um gosto, cada lua um detalhe.
+
+## Como abrir
+
+Dê **dois cliques em `index.html`**. É só isso — não precisa instalar nada.
+
+Se preferir abrir por um endereço local (útil para acessar do celular na mesma rede):
+
+```bash
+node serve.js
+```
+
+E abra `http://localhost:4173`.
+
+## A entrada
+
+A tela começa preta, com um único ponto branco no meio.
+**Clique no ponto** → Big Bang → o universo nasce em volta de você.
+
+## Como se navega
+
+O universo mostra **um nível de cada vez**.
+
+No começo você vê só o centro e as **galáxias** em volta dele. Cada astro que
+tem coisas dentro aparece com um **aro tracejado** e um aviso embaixo do nome
+(“3 ASTROS”).
+
+**Clique na galáxia** → você entra nela: a galáxia vai para o centro da tela e
+os astros daquele sistema aparecem orbitando. Clique de novo num planeta e você
+entra nele, vendo as luas. E assim por diante, sem limite de profundidade.
+
+Para voltar: botão **← Voltar**, tecla `esc`, clique duplo no vazio, ou o
+caminho “dentro de Ela › Animes › …” no topo, que leva direto a qualquer nível.
+
+## Cada astro reage do jeito dele
+
+Clicar num astro dispara uma animação que combina com o que ele é:
+
+| Astro | O que acontece |
+|---|---|
+| Galáxia | os braços aceleram, o núcleo brilha e saem ondas |
+| Supernova | explode: onda de choque + estilhaços de luz |
+| Buraco negro | suga tudo em volta numa espiral, o anel de luz se fecha |
+| Estrela / Estrela-mãe | as pontas de difração se esticam e saem raios |
+| Lua | a sombra atravessa: as fases da lua em segundos |
+| Cometa | dispara e deixa rastro, a cauda estica |
+| Pulsar | dispara pulsos em sequência |
+| Quasar | os jatos disparam para longe |
+| Constelação | as linhas se desenham traço a traço |
+| Nebulosa | a nuvem respira e solta faíscas |
+| Asteroide | treme, gira e lasca pedaços |
+| Planeta anelado | os anéis se soltam e se abrem |
+| Planeta / tipos novos | anel de luz limpo saindo do corpo |
+
+Quando o astro tem um sistema dentro, a animação toca e **depois** a câmera
+mergulha nele — clique, reação, entrada.
+
+## A estrutura
+
+```
+Ela  (estrela-mãe, o centro de tudo)
+ ├── Animes            ← galáxia  (campo de conhecimento)
+ │    └── Jujutsu Kaisen   ← planeta (um gosto específico)
+ │         ├── Nanami          ← lua (personagem, detalhe)
+ │         └── Trilha sonora   ← lua
+ ├── Comidas           ← galáxia
+ ├── O que ela não gosta   ← buraco negro
+ ├── Momentos marcantes    ← supernova
+ └── Sonhos e planos       ← cometa
+```
+
+Nada disso é obrigatório: qualquer astro pode orbitar qualquer outro, em qualquer
+profundidade. E além da hierarquia existem as **conexões livres** (linhas
+pontilhadas) para ligar coisas de galáxias diferentes — tipo "ela descobriu essa
+música por causa desse anime".
+
+## Como usar
+
+| Ação | O que faz |
+|---|---|
+| Clique num astro com coisas dentro | entra nele (não abre painel) |
+| Clique num astro sem nada dentro | abre o painel com tudo que ele guarda |
+| Clique no astro do centro | abre o painel dele (o “sobre” da galáxia) |
+| ← Voltar / `esc` | sobe um nível |
+| Clique duplo no vazio | sobe um nível |
+| Arrastar um astro | muda a órbita dele |
+| Arrastar o fundo | navega pelo nível |
+| Roda do mouse / pinça | zoom |
+| `N` | criar um astro novo |
+| `espaço` | pausar as órbitas |
+
+- **+ Criar astro** — cria qualquer corpo celeste e escolhe em volta de quem ele orbita.
+  Já vem apontado para o nível em que você está.
+- **⇄ Conectar** (dentro do painel) — liga dois astros com uma linha e um rótulo.
+- **Clique no nome do universo** (canto superior esquerdo) — abre o menu discreto
+  com *Renomear universo*, *Tipos de astro*, *Backup dos dados* e *Como funciona*.
+- **Tipos de astro** — 15 tipos prontos (galáxia, planeta, lua, buraco negro,
+  supernova, quasar, pulsar, cometa, asteroide, nebulosa, constelação, estrela
+  binária…) e você cria **quantos quiser**, escolhendo forma, cor e tamanho.
+  Também dá para criar um tipo novo na hora, pelo próprio formulário do astro.
+
+## No celular
+
+Em telas de até 760px o universo fica em **modo passeio**: dá para navegar
+pelos níveis, ver as animações e entrar nos astros, mas o botão **+ Criar
+astro** some e o painel lateral (o “sobre”) não abre — ele tomaria a tela
+inteira. O astro clicado responde com a animação e o anel de seleção.
+
+Escrever, editar e ler as anotações é coisa de tela grande. O corte é só de
+largura: girar o celular ou abrir no computador libera tudo de novo, na hora.
+
+## Onde os dados ficam
+
+Tudo é salvo **automaticamente no seu próprio navegador** (localStorage), neste
+computador. Nada vai para a internet, nada é enviado para lugar nenhum.
+
+Por isso, duas coisas importantes:
+
+1. **Faça backup de vez em quando**: clique no nome do universo →
+   `Backup dos dados → Exportar backup (.json)`.
+2. Para abrir o mesmo universo em outro aparelho (ou outro navegador), copie a
+   pasta e use `Backup dos dados → Importar backup`.
+
+Limpar os dados do navegador apaga o universo — o backup `.json` é a sua
+garantia.
+
+## Arquivos
+
+```
+index.html      estrutura da página
+style.css       todo o visual
+js/data.js      modelo de dados, órbitas e salvamento
+js/scene.js     canvas: céu de fundo, câmera, órbitas, desenho dos astros, Big Bang
+js/ui.js        painéis, formulários, menu, importar/exportar
+serve.js        servidor local opcional
+```
+
+Quer um corpo celeste novo com um desenho que ainda não existe (um wormhole, um
+anel de asteroides)? As formas ficam em `js/scene.js`, na função `drawBody` —
+cada `case` é uma forma.
