@@ -95,9 +95,21 @@ var Scene = {
   },
 
   resize: function () {
+    // guarda o tamanho anterior para reajustar o zoom junto com a janela
+    var antes = (this.W && this.H) ? Math.min(this.W, this.H) : 0;
+
     this.dpr = Math.min(window.devicePixelRatio || 1, 2);
     this.W = window.innerWidth;
     this.H = window.innerHeight;
+
+    // girar o celular ou mudar a janela não pode deixar o universo perdido
+    if (antes) {
+      var k = Math.min(this.W, this.H) / antes;
+      if (isFinite(k) && k > 0) {
+        this.cam.z = clamp(this.cam.z * k, 0.05, 5);
+        this.cam.tz = clamp(this.cam.tz * k, 0.05, 5);
+      }
+    }
     this.canvas.width = Math.floor(this.W * this.dpr);
     this.canvas.height = Math.floor(this.H * this.dpr);
     this.canvas.style.width = this.W + 'px';
