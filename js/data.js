@@ -233,6 +233,68 @@ var U = {
     };
   },
 
+  /* ── organização das órbitas ──────────────────────────────────────────
+     Antes cada astro ganhava uma velocidade sorteada, então os irmãos iam
+     derivando até se encontrarem: com o tempo, qualquer nível acabava com
+     astros sobrepostos. A organização aqui resolve isso com duas regras:
+
+       · os astros de um nível são distribuídos em ANÉIS, e todos os astros
+         de um mesmo anel giram na MESMA velocidade — a roda gira inteira,
+         a formação nunca se embaralha;
+       · o raio de um anel cresce até caber a volta inteira dos astros que
+         ele carrega, e um anel só começa depois que o anterior termina.
+
+     Anéis vizinhos giram em sentidos opostos, o que mantém o nível vivo
+     sem nunca aproximar dois astros. Quem foi arrastado à mão fica onde o
+     usuário deixou (orbit.fix) e não é remexido.                          */
+  arrange: function (parentId) {
+    // o centro do universo não orbita nada: não há o que organizar
+    if (!parentId) return;
+    var self = this;
+    var TAU = Math.PI * 2;
+    var kids = this.children(parentId).filter(function (n) {
+      return !(n.orbit && n.orbit.fix);
+    });
+    if (!kids.length) return;
+
+    var parent = this.node(parentId);
+    if (!parent) return;
+    var pSize = this.type(parent.type).size;
+    var depth = this.depth(parent) + 1;
+
+    // espaço que cada astro ocupa: o corpo mais o aro tracejado e uma folga
+    function raio(n) { return self.type(n.type).size * 2.2 + 18; }
+
+    // maiores nos anéis de dentro: o nível fica mais equilibrado
+    kids.sort(function (a, b) { return self.type(b.type).size - self.type(a.type).size; });
+
+    var porAnel = depth <= 1 ? 7 : (depth === 2 ? 8 : 9);
+    var rAtual = pSize * 2.2 + (depth <= 1 ? 300 : 90);
+    var i = 0, anel = 0;
+
+    while (i < kids.length) {
+      var grupo = kids.slice(i, i + porAnel);
+      var maior = 0, volta = 0;
+      grupo.forEach(function (n) {
+        var q = raio(n);
+        volta += q * 2;
+        if (q > maior) maior = q;
+      });
+      // raio mínimo para a roda inteira caber sem um astro encostar no outro
+      var rMin = volta * 1.12 / TAU;
+      var r = Math.max(rAtual + maior, rMin);
+      var passo = TAU / grupo.length;
+      var giro = (anel * 0.5 + 0.17) * passo;   // anéis vizinhos desencontrados
+      var vel = (depth <= 1 ? 0.03 : 0.085) / Math.sqrt(r / 120) * (anel % 2 ? -1 : 1);
+      grupo.forEach(function (n, k) {
+        n.orbit = { r: r, a0: (giro + k * passo) % TAU, speed: vel, fix: 0 };
+      });
+      rAtual = r + maior;                        // o próximo anel começa depois deste
+      i += porAnel;
+      anel++;
+    }
+  },
+
   /* ── criação / edição ── */
   add: function (o) {
     var n = {

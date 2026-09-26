@@ -45,6 +45,36 @@ entra nele, vendo as luas. E assim por diante, sem limite de profundidade.
 Para voltar: botão **← Voltar**, tecla `esc`, clique duplo no vazio, ou o
 caminho “dentro de Ela › Animes › …” no topo, que leva direto a qualquer nível.
 
+## O espaço é 3D
+
+Todo nível — inclusive a tela inicial — é um **disco inclinado no espaço**,
+não um mapa plano. Os astros orbitam num plano tombado: quem está na frente
+chega maior e mais aceso, quem está no fundo chega menor e mais apagado, e
+passa por trás do centro. Uma **poeira de pixels** na cor da galáxia enche o
+volume e gira junto, mais rápido no miolo que na borda.
+
+Nada disso muda o que você faz: clicar, arrastar, entrar e voltar continuam
+iguais. É a mesma cena de sempre, vista de um ângulo.
+
+### Por que os astros não se sobrepõem
+
+Os astros de um nível são distribuídos em **anéis**, e vale uma regra simples:
+
+> todos os astros de um mesmo anel giram na **mesma velocidade**.
+
+Com isso o anel gira inteiro, como uma roda, e a formação nunca se embaralha.
+O raio de cada anel cresce até caber a volta inteira dos astros que ele
+carrega, e um anel só começa depois que o anterior termina. Anéis vizinhos
+giram em sentidos opostos, o que mantém o nível vivo sem nunca aproximar dois
+astros.
+
+Antes cada astro ganhava uma velocidade sorteada, então os irmãos iam
+derivando até se encontrarem — com o tempo, qualquer nível acabava com astros
+um em cima do outro.
+
+**Arrastar um astro à mão desliga a organização automática para ele**: fica
+exatamente onde você soltou, e a arrumação dos outros o respeita.
+
 ## Cada astro reage do jeito dele
 
 Clicar num astro dispara uma animação que combina com o que ele é:
@@ -100,7 +130,7 @@ música por causa desse anime".
 | Clique no astro do centro | abre o painel dele (o “sobre” da galáxia) |
 | ← Voltar / `esc` | sobe um nível |
 | Clique duplo no vazio | sobe um nível |
-| Arrastar um astro | muda a órbita dele |
+| Arrastar um astro | muda a órbita dele e fixa o astro ali |
 | Arrastar o fundo | navega pelo nível |
 | Roda do mouse / pinça | zoom |
 | `N` | criar um astro novo |
@@ -179,14 +209,14 @@ garantia.
 O `index.html` carrega os arquivos com `?v=2` no fim:
 
 ```html
-<link rel="stylesheet" href="style.css?v=2">
-<script src="js/scene.js?v=2"></script>
+<link rel="stylesheet" href="style.css?v=3">
+<script src="js/scene.js?v=3"></script>
 ```
 
 Esse número existe porque o navegador guarda css e js em cache por vários
 minutos. Sem ele, quem já abriu o site continuaria rodando a versão antiga
 mesmo depois da correção ir para o ar. **Ao mudar qualquer css ou js, suba o
-número em todos eles** (v=2 → v=3) antes de publicar. Trocar só o
+número em todos eles** (v=3 → v=4) antes de publicar. Trocar só o
 `universo.json` não precisa: ele já é buscado sem cache.
 
 ## Arquivos
@@ -194,8 +224,8 @@ número em todos eles** (v=2 → v=3) antes de publicar. Trocar só o
 ```
 index.html      estrutura da página
 style.css       todo o visual
-js/data.js      modelo de dados, órbitas e salvamento
-js/scene.js     canvas: céu de fundo, câmera, órbitas, desenho dos astros, Big Bang
+js/data.js      modelo de dados, órbitas em anéis e salvamento
+js/scene.js     canvas: céu de fundo, câmera, disco 3D, poeira, desenho dos astros, Big Bang
 js/ui.js        painéis, formulários, menu, importar/exportar
 serve.js        servidor local opcional
 ```

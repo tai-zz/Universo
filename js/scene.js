@@ -60,6 +60,10 @@ var Scene = {
   bangT: 0,
   parts: [],
   dust: [],
+  dust3: [],               // poeira de pixels do disco 3D
+  dustFor: undefined,      // nível para o qual a poeira foi gerada
+  mode3: 0,                // 0 = mapa plano (raiz) · 1 = galáxia 3D
+  d3: 600,                 // distância da câmera ao plano do disco
   index: {},               // id → node
   order: [],               // nós em ordem de profundidade
   depth: {},               // id → profundidade
@@ -121,6 +125,7 @@ var Scene = {
     this.canvas.style.height = this.H + 'px';
     this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
     if (this.sky) this.makeSky();
+    if (this.is3d()) this.makeDust();
   },
 
   /* ═══════════ CÉU DE FUNDO (campo profundo) ═══════════
@@ -234,6 +239,153 @@ var Scene = {
     c.beginPath(); c.arc(s.x, s.y, s.r, 0, TAU); c.fill();
   },
 
+  /* ═══════════ GALÁXIA 3D ═══════════
+     A raiz continua sendo um mapa plano. Ao entrar num astro, o nível vira
+     um disco inclinado no espaço: as órbitas ganham perspectiva, os astros
+     do fundo passam por trás do centro e uma poeira de pixels enche o volume.
+
+     O truque para não reescrever a cena inteira: a projeção acontece aqui e
+     devolve coordenadas de mundo já achatadas, do mesmo jeito que o modo
+     plano entregava. Câmera, clique, arrastar e rótulos seguem intactos —
+     só passam a multiplicar o raio pela escala de profundidade (_s).        */
+  T3: 0.60,                        // inclinação (0 = de lado · π/2 = de frente)
+  SIN3: Math.sin(0.60),
+  COS3: Math.cos(0.60),
+
+  /* todo nível é um disco no espaço — a raiz também */
+  is3d: function () { return !!this.viewNode(); },
+
+  /* distância da câmera ao disco, proporcional ao tamanho do nível */
+  dist3: function (kids) {
+    var maxR = 1;
+    (kids || []).forEach(function (n) {
+      if (n.orbit && n.orbit.r > maxR) maxR = n.orbit.r;
+    });
+    this.raio3 = maxR;
+    return Math.max(260, maxR * 2.8);
+  },
+
+  /* ponto do disco (ângulo, raio, altura) → mundo achatado + escala + profundidade */
+  proj3: function (a, R, y) {
+    var px = Math.cos(a) * R, pz = Math.sin(a) * R;
+    var fx = px, fy = pz * 0.94, s = 1, z3 = 0;   // plano: leve achatamento
+    var m = this.mode3;
+    if (m > 0.001) {
+      var sinT = this.SIN3, cosT = this.COS3;
+      y = y || 0;
+      var y3 = y * cosT - pz * sinT;              // inclina em torno do eixo X
+      z3 = y * sinT + pz * cosT;
+      var ss = this.d3 / Math.max(1, this.d3 + z3);
+      fx = lerp(fx, px * ss, m);
+      fy = lerp(fy, y3 * ss, m);
+      s = lerp(1, ss, m);
+      z3 *= m;
+    }
+    return [fx, fy, s, z3];
+  },
+
+  /* o caminho de volta: mundo achatado → (raio, ângulo) da órbita.
+
+     Tentar chegar lá por aproximações sucessivas não funciona: para os
+     astros da frente do disco a conta diverge em vez de convergir, e o
+     astro arrastado saltava para longe. Mas há solução fechada — a altura
+     na tela já carrega a perspectiva, então dela sai a escala, e com a
+     escala o raio e o ângulo saem de uma vez.                            */
+  unproj3: function (wx, wy) {
+    if (this.mode3 < 0.5) return [Math.hypot(wx, wy / 0.94), Math.atan2(wy / 0.94, wx)];
+    var sinT = this.SIN3, cosT = this.COS3, d = this.d3;
+    var q = -wy / sinT;              // profundidade já multiplicada pela escala
+    var s = 1 - q * cosT / d;        // a escala que produziu este ponto
+    if (s < 0.05) s = 0.05;          // atrás da câmera: não deixa explodir
+    var px = wx / s, pz = q / s;
+    return [Math.hypot(px, pz), Math.atan2(pz, px)];
+  },
+
+  /* poeira de pixels: um disco de partículas em volta do centro do nível */
+  makeDust: function () {
+    this.dustFor = this.view;
+    this.dust3 = [];
+    var v = this.viewNode();
+    if (!this.is3d() || !v || !(this.W > 0)) return;
+
+    var kids = this.kids[v.id] || [];
+    var maxR = 220;
+    kids.forEach(function (n) { if (n.orbit && n.orbit.r > maxR) maxR = n.orbit.r; });
+    var raio = this.dustRaio = maxR * 1.5;
+
+    // menos partículas em tela pequena: o celular também precisa dar conta
+    var qtd = Math.round(clamp(this.W * this.H / 780, 600, 2000));
+    var base = rgb(U.type(v.type).color);
+    var PAL = [base, base, base, base, '255,255,255', '255,226,196', '255,186,206'];
+    var rnd = Math.random;
+    for (var i = 0; i < qtd; i++) {
+      var r = raio * Math.pow(rnd(), 0.62);            // miolo mais denso
+      var esp = raio * 0.048 * (1 - (r / raio) * 0.6); // disco afina nas bordas
+      var col = PAL[(rnd() * PAL.length) | 0];
+      this.dust3.push({
+        r: r,
+        a: rnd() * TAU,
+        y: (rnd() + rnd() - 1) * esp,
+        sz: 1.2 + Math.pow(rnd(), 2.2) * 4.0,
+        css: 'rgb(' + col + ')',
+        al: 0.26 + Math.pow(rnd(), 1.7) * 0.7,
+        sp: 0.055 * (raio * 0.35 + 1) / (r + raio * 0.35)  // rotação diferencial
+      });
+    }
+    // agrupadas por cor: trocar fillStyle é o que custa caro no desenho
+    this.dust3.sort(function (a, b) { return a.css < b.css ? -1 : (a.css > b.css ? 1 : 0); });
+  },
+
+  /* duas passadas: perto=false desenha o fundo do disco, perto=true a frente.
+     Sem ordenar nada — é a metade do custo e o volume aparece igual.        */
+  drawDust3: function (perto) {
+    var m = this.mode3;
+    if (m < 0.02 || !this.dust3.length) return;
+    var ctx = this.ctx, z = this.cam.z, t = this.t;
+    var W = this.W, H = this.H;
+    var sinT = this.SIN3, cosT = this.COS3, d = this.d3;
+    var camx = this.cam.x, camy = this.cam.y;
+    var cx = W / 2, cy = H / 2 + this.oy();
+
+    // miolo aceso por trás da poeira
+    if (!perto) {
+      var v = this.viewNode();
+      var halo = (this.dustRaio || 300) * 0.62 * z;
+      if (v && halo > 4 && halo < 6000) {
+        ctx.save();
+        ctx.globalAlpha = m * this._alpha;
+        this.glow(cx - camx * z, cy - camy * z, halo, U.type(v.type).color, 0.34);
+        ctx.restore();
+      }
+    }
+
+    ctx.save();
+    var aBase = m * this._alpha * (perto ? 0.85 : 1);
+    // as partículas vêm ordenadas por cor e a opacidade anda em degraus:
+    // assim o canvas troca de estado algumas dezenas de vezes, não milhares
+    var ultimaCor = null, ultimaOp = -1;
+    for (var i = 0; i < this.dust3.length; i++) {
+      var p = this.dust3[i];
+      var a = p.a + t * p.sp;
+      var pz = Math.sin(a) * p.r;
+      var z3 = p.y * sinT + pz * cosT;
+      if (perto ? z3 >= 0 : z3 < 0) continue;
+      var y3 = p.y * cosT - pz * sinT;
+      var s = d / Math.max(1, d + z3);
+      var sx = (Math.cos(a) * p.r * s - camx) * z + cx;
+      var sy = (y3 * s - camy) * z + cy;
+      if (sx < -8 || sx > W + 8 || sy < -8 || sy > H + 8) continue;
+      var w = p.sz * s * z;
+      if (w < 0.6) w = 0.6;
+      var op = Math.round(aBase * p.al * clamp(s * 0.85, 0.12, 1) * 24) / 24;
+      if (op <= 0) continue;
+      if (op !== ultimaOp) { ctx.globalAlpha = op; ultimaOp = op; }
+      if (p.css !== ultimaCor) { ctx.fillStyle = p.css; ultimaCor = p.css; }
+      ctx.fillRect(sx - w / 2, sy - w / 2, w, w);
+    }
+    ctx.restore();
+  },
+
   /* ═══════════ ÍNDICES ═══════════ */
   rebuild: function () {
     var self = this;
@@ -259,6 +411,12 @@ var Scene = {
         queue.push(c);
       });
     }
+    this.d3For = undefined;   // mudou o conteúdo: recalibra a perspectiva
+    // cada nível ganha a organização em anéis: nada de astros sobrepostos
+    for (var pid in this.kids) {
+      if (this.kids.hasOwnProperty(pid) && pid !== '__root__') U.arrange(pid);
+    }
+
     this.order = order;
     if (!this.index[this.view]) this.view = null;
     this.updateVis();
@@ -321,7 +479,10 @@ var Scene = {
   commitView: function (id, dir, sel) {
     this.view = id;
     this.updateVis();
+    // a troca plano↔3D acontece durante o escurecimento da transição
+    this.mode3 = this.is3d() ? 1 : 0;
     this.layout();
+    this.makeDust();
     var fit = this.fitZoom();
     this.cam.x = this.cam.y = this.cam.tx = this.cam.ty = 0;
     this.cam.z = clamp(fit * (dir > 0 ? 0.42 : 2.3), 0.1, 5);
@@ -335,13 +496,21 @@ var Scene = {
     var self = this;
     var v = this.viewNode();
     if (!v) return;
-    v._x = 0; v._y = 0; v._a = 0;
-    (this.kids[v.id] || []).forEach(function (n) {
+    v._x = 0; v._y = 0; v._a = 0; v._s = 1; v._z = 0;
+    var kids = this.kids[v.id] || [];
+    // a perspectiva é calibrada uma vez por nível. Se fosse recalculada a
+    // cada quadro, arrastar um astro para fora mudaria a perspectiva de
+    // todos juntos e ele nunca pararia debaixo do cursor.
+    if (this.d3For !== this.view) {
+      this.d3 = this.dist3(kids);
+      this.d3For = this.view;
+    }
+    kids.forEach(function (n) {
       var o = n.orbit || { r: 220, a0: 0, speed: 0 };
       var a = o.a0 + self.t * (o.speed || 0);
       n._a = a;
-      n._x = Math.cos(a) * o.r;
-      n._y = Math.sin(a) * o.r * 0.94;   // leve achatamento = sensação de plano
+      var q = self.proj3(a, o.r, 0);
+      n._x = q[0]; n._y = q[1]; n._s = q[2]; n._z = q[3];
     });
   },
 
@@ -369,13 +538,21 @@ var Scene = {
   fitZoom: function () {
     // sem tela medida não há enquadramento possível: não invente um número
     if (!(this.W > 0) || !(this.H > 0)) return this.cam.tz || 1;
-    var self = this, max = 140;   // piso: um astro sozinho não vira um borrão gigante
+    // o disco 3D é achatado na vertical, então medir um raio circular
+    // sobraria margem e encolheria tudo: mede-se a caixa já projetada.
+    // Os pisos evitam que um astro sozinho vire um borrão gigante.
+    var self = this, mx = 120, my = 100;
     this.order.forEach(function (n) {
       if (!self.vis[n.id]) return;
-      var d = Math.hypot(n._x || 0, n._y || 0) + U.type(n.type).size * 2.4 + 26;
-      if (d > max) max = d;
+      var folga = U.type(n.type).size * (n._s || 1) * 2.4 + 26;
+      var ax = Math.abs(n._x || 0) + folga;
+      var ay = Math.abs(n._y || 0) + folga;
+      if (ax > mx) mx = ax;
+      if (ay > my) my = ay;
     });
-    return clamp((Math.min(this.W, this.H) - 110) * 0.45 / max, 0.14, 3.2);
+    var zx = (this.W - 120) * 0.5 / mx;
+    var zy = (this.H - 160) * 0.5 / my;
+    return clamp(Math.min(zx, zy), 0.14, 3.2);
   },
   zoomBy: function (f) {
     this.cam.tz = clamp(this.cam.tz * f, 0.12, 4);
@@ -408,6 +585,13 @@ var Scene = {
     var dt = Math.min((ts - this.last) / 1000, 0.05);
     this.last = ts;
     if (!this.paused) this.t += dt;
+    // o nível pode mudar por fora (importar backup): refaz a poeira na hora
+    if (this.dustFor !== this.view) {
+      this.mode3 = this.is3d() ? 1 : 0;
+      this.makeDust();
+    } else {
+      this.mode3 = lerp(this.mode3, this.is3d() ? 1 : 0, 1 - Math.pow(0.002, dt));
+    }
     if (this.phase === 'bang') {
       // relógio real: se a aba for estrangulada, o flash não trava na tela
       this.bangT = Math.max(0, (ts - this.bangStart) / 1000);
@@ -492,8 +676,10 @@ var Scene = {
       ctx.globalAlpha = uAlpha;
       this.drawSky();
       ctx.globalAlpha = this._alpha;
+      this.drawDust3(false);
       this.drawLinks();
       this.drawNodes();
+      this.drawDust3(true);
       ctx.restore();
     }
 
@@ -540,7 +726,17 @@ var Scene = {
       if (rr < 12 || rr > 9000) return;
       ctx.strokeStyle = 'rgba(120,160,240,' + (rel ? 0.05 : 0.1) + ')';
       ctx.beginPath();
-      ctx.ellipse(c0[0], c0[1], rr, rr * 0.94, 0, 0, TAU);
+      if (self.mode3 > 0.02) {
+        // com perspectiva a órbita não é uma elipse centrada: traça ponto a ponto
+        for (var k = 0; k <= 64; k++) {
+          var q = self.proj3(k / 64 * TAU, n.orbit.r, 0);
+          var sp = self.w2s(q[0], q[1]);
+          if (k) ctx.lineTo(sp[0], sp[1]); else ctx.moveTo(sp[0], sp[1]);
+        }
+        ctx.closePath();
+      } else {
+        ctx.ellipse(c0[0], c0[1], rr, rr * 0.94, 0, 0, TAU);
+      }
       ctx.stroke();
     });
 
@@ -605,18 +801,25 @@ var Scene = {
     var self = this, ctx = this.ctx, z = this.cam.z;
     var rel = this.relatedSet();
     var list = this.order.filter(function (n) { return self.vis[n.id]; });
-    // maiores primeiro (ficam atrás)
-    list.sort(function (a, b) { return U.type(b.type).size - U.type(a.type).size; });
+    if (this.mode3 > 0.5) {
+      // no disco 3D quem manda é a profundidade: o fundo desenha primeiro
+      list.sort(function (a, b) { return (b._z || 0) - (a._z || 0); });
+    } else {
+      // maiores primeiro (ficam atrás)
+      list.sort(function (a, b) { return U.type(b.type).size - U.type(a.type).size; });
+    }
 
     var labels = [], fxList = [];
     list.forEach(function (n) {
       var ty = U.type(n.type);
       var s = self.w2s(n._x, n._y);
-      var r = Math.max(1.2, ty.size * z);
+      var r = Math.max(1.2, ty.size * z * (n._s || 1));
       var pad = r * 4 + 80;
       if (s[0] < -pad || s[0] > self.W + pad || s[1] < -pad || s[1] > self.H + pad) return;
 
       var dim = rel && !rel[n.id] ? 0.35 : 1;
+      // o que está no fundo do disco chega mais apagado
+      if (self.mode3 > 0.01) dim *= lerp(1, clamp((n._s || 1) * 0.92, 0.4, 1), self.mode3);
       var isHot = (self.hover === n.id || self.selected === n.id);
       if (isHot) dim = 1;
 
@@ -646,7 +849,7 @@ var Scene = {
         n: n, ty: ty, x: s[0], y: s[1] + r + 15, d: d, r: r, hot: isHot, kids: kidCount,
         linhas: wrapLabel(n.name, maxCh, isHot ? 5 : 3),
         a: dim * (isHot ? 1 : 0.92),
-        prio: (isHot ? 100 : 0) + (n.fav ? 20 : 0) + (10 - d) + ty.size / 10
+        prio: (isHot ? 100 : 0) + (n.fav ? 20 : 0) + (10 - d) + ty.size / 10 + (n._s || 1) * 6
       });
     });
 
@@ -1270,10 +1473,12 @@ var Scene = {
     this.order.forEach(function (n) {
       if (!self.vis[n.id]) return;
       var s = self.w2s(n._x, n._y);
-      var r = Math.max(1.2, U.type(n.type).size * self.cam.z);
+      var r = Math.max(1.2, U.type(n.type).size * self.cam.z * (n._s || 1));
       var hit = Math.max(r * 1.25 + 7, 13);
       var dx = sx - s[0], dy = sy - s[1], d = Math.sqrt(dx * dx + dy * dy);
-      if (d < hit && d < bestD) { bestD = d; best = n; }
+      // dois astros sobrepostos: ganha o que está mais à frente
+      var score = d - (n._s || 1) * 6;
+      if (d < hit && score < bestD) { bestD = score; best = n; }
     });
     return best;
   },
@@ -1335,12 +1540,15 @@ var Scene = {
         var vn = self.viewNode();
         if (n && (!vn || vn.id !== n.id)) {
           var w = self.s2w(p[0], p[1]);
-          var dx = w[0], dy = w[1] / 0.94;   // o centro do nível está sempre na origem
-          var r = Math.max(0, Math.hypot(dx, dy));
-          var ang = Math.atan2(dy, dx);
+          // o centro do nível está sempre na origem; no disco 3D é preciso
+          // desfazer a inclinação e a perspectiva para achar a órbita
+          var pol = self.unproj3(w[0], w[1]);
+          var r = Math.max(0, pol[0]);
+          var ang = pol[1];
           n.orbit = n.orbit || { r: r, a0: 0, speed: 0 };
           n.orbit.r = r;
           n.orbit.a0 = ang - self.t * (n.orbit.speed || 0);
+          n.orbit.fix = 1;   // colocado à mão: a organização respeita
         }
       } else if (panning && last) {
         self.cam.tx = self.cam.x -= (p[0] - last[0]) / self.cam.z;
