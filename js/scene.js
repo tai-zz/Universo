@@ -546,6 +546,7 @@ var Scene = {
       var R = o.r * (1 - self.ECC * Math.cos(a - eixo));
       var q = self.proj3(a, R, 0);
       n._x = q[0]; n._y = q[1]; n._s = q[2]; n._z = q[3];
+      n._R3 = R;   // distância real ao centro: é dela que sai a fase
     });
     this.atrair(kids, v);
   },
@@ -1007,6 +1008,70 @@ var Scene = {
     ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.fill();
   },
 
+  /* ── volume dos corpos ───────────────────────────────────────────────
+     Até aqui o 3D estava no arranjo, e cada astro continuava um desenho
+     chapado. Estas duas funções dão volume a eles.
+
+     A luz vem do centro do nível, que é quem brilha ali: o lado virado
+     para o centro é o lado aceso. E a fase sai da profundidade — um astro
+     no fundo do disco tem o centro entre ele e nós, está de costas para a
+     luz e aparece como um crescente; um astro na frente aparece cheio. É
+     a mesma razão de a Lua ter fases, e cai de graça porque a cena já
+     sabe a profundidade de cada astro.
+
+     Só os corpos que não brilham sozinhos ganham fase. Estrela, supernova,
+     quasar, pulsar e buraco negro não têm lado escuro — a luz é deles.   */
+  luz: function (n, x, y) {
+    var c0 = this.w2s(0, 0);
+    var dx = c0[0] - x, dy = c0[1] - y;
+    var d = Math.sqrt(dx * dx + dy * dy);
+    var lx = d > 0.5 ? dx / d : 0;
+    var ly = d > 0.5 ? dy / d : -1;
+    var R3 = n._R3 || 0;
+    // fase cheia na frente do disco, crescente no fundo
+    var lit = R3 > 1 ? 0.5 - 0.5 * ((n._z || 0) / R3) : 1;
+    return [lx, ly, clamp(lit, 0.14, 1)];
+  },
+
+  /* sombreia uma esfera: noite, terminador, brilho especular e o fio de
+     luz na borda acesa. Tudo recortado no círculo do corpo.             */
+  relevo: function (x, y, r, lit, lx, ly, boost) {
+    if (r < 2.2) return;                 // pequeno demais: só custaria caro
+    var ctx = this.ctx;
+    ctx.save();
+    ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.clip();
+
+    // o terminador anda de uma borda à outra conforme a fase
+    var d = (1 - 2 * lit) * r;
+    var g = ctx.createLinearGradient(
+      x + lx * (d + r * 0.30), y + ly * (d + r * 0.30),
+      x + lx * (d - r * 0.95), y + ly * (d - r * 0.95));
+    g.addColorStop(0, 'rgba(2,5,14,0)');
+    g.addColorStop(0.5, 'rgba(2,5,14,.52)');
+    g.addColorStop(1, 'rgba(2,5,14,.9)');
+    ctx.fillStyle = g;
+    ctx.fillRect(x - r, y - r, r * 2, r * 2);
+
+    // brilho especular do lado aceso
+    var hx = x + lx * r * 0.44, hy = y + ly * r * 0.44;
+    var sp = ctx.createRadialGradient(hx, hy, 0, hx, hy, r * 0.7);
+    sp.addColorStop(0, 'rgba(255,255,255,' + (0.26 * lit * boost).toFixed(3) + ')');
+    sp.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = sp;
+    ctx.fillRect(x - r, y - r, r * 2, r * 2);
+    ctx.restore();
+
+    // fio de luz na borda virada para o centro
+    var ang = Math.atan2(ly, lx);
+    ctx.save();
+    ctx.strokeStyle = 'rgba(255,255,255,' + (0.2 * lit * boost).toFixed(3) + ')';
+    ctx.lineWidth = Math.max(0.5, r * 0.1);
+    ctx.beginPath();
+    ctx.arc(x, y, r * 0.95, ang - 1.05, ang + 1.05);
+    ctx.stroke();
+    ctx.restore();
+  },
+
   /* ── desenho de cada corpo celeste ── */
   drawBody: function (n, ty, x, y, r, hot, fx) {
     var ctx = this.ctx, c = ty.color, t = this.t;
@@ -1031,6 +1096,13 @@ var Scene = {
         this.glow(x, y, r * 4.2, c, 0.2 * boost);
         ctx.save();
         ctx.translate(x, y);
+        // uma galáxia é um disco. A inclinação entra ANTES do giro, então
+        // ela gira no próprio plano e nós é que a vemos de lado —
+        // antes o achatamento girava junto, o que é a deformação errada.
+        // Cada uma foge um pouco do plano do nível para não ficarem iguais.
+        var sqG = this.SIN3 * (0.86 + ((seed % 9) / 9) * 0.42);
+        ctx.rotate((((seed % 5) / 5) - 0.5) * 0.5);
+        ctx.scale(1, sqG);
         ctx.rotate(t * 0.05 + seed + spin * 1.6);
         var arms = 3, ai;
         for (ai = 0; ai < arms; ai++) {
@@ -1040,7 +1112,7 @@ var Scene = {
           for (var i = 0; i <= 26; i++) {
             var f = i / 26;
             var ang = f * 2.5, rad = f * r * 2.7;
-            var px = Math.cos(ang) * rad, py = Math.sin(ang) * rad * 0.68;
+            var px = Math.cos(ang) * rad, py = Math.sin(ang) * rad;
             if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
           }
           ctx.strokeStyle = rgba(c, 0.32 * boost);
@@ -1051,7 +1123,7 @@ var Scene = {
             var ff = j / 5, aa = ff * 2.5, rr2 = ff * r * 2.7;
             ctx.fillStyle = 'rgba(255,255,255,' + (0.5 * boost) + ')';
             ctx.beginPath();
-            ctx.arc(Math.cos(aa) * rr2, Math.sin(aa) * rr2 * 0.68, Math.max(0.5, r * 0.07), 0, TAU);
+            ctx.arc(Math.cos(aa) * rr2, Math.sin(aa) * rr2, Math.max(0.5, r * 0.07), 0, TAU);
             ctx.fill();
           }
           ctx.restore();
@@ -1159,6 +1231,8 @@ var Scene = {
         ctx.fillStyle = rgba(c, 0.85 * boost);
         ctx.fill();
         ctx.restore();
+        var Lr = this.luz(n, x, y);
+        this.relevo(x, y, r * 0.86, Lr[2], Lr[0], Lr[1], boost);
         this.glow(x, y, r * 2, c, 0.18 * boost);
         break;
       }
@@ -1256,32 +1330,45 @@ var Scene = {
 
       case 'planet':
       case 'ringed': {
+        var L = this.luz(n, x, y);
         this.glow(x, y, r * 2.6, c, 0.26 * boost);
+
+        // os anéis ficam no plano do disco do nível, como os de Saturno.
+        // A metade de trás é desenhada antes do planeta e a da frente
+        // depois — é isso que faz o anel passar por trás e por diante.
+        var anelSq = this.SIN3 * 0.92;
+        function anel(de, ate) {
+          ctx.save();
+          ctx.translate(x, y);
+          ctx.strokeStyle = rgba(c, 0.6 * boost);
+          ctx.lineWidth = Math.max(0.6, r * 0.16);
+          ctx.beginPath(); ctx.ellipse(0, 0, r * 1.9, r * 1.9 * anelSq, 0, de, ate); ctx.stroke();
+          ctx.strokeStyle = rgba('#ffffff', 0.3 * boost);
+          ctx.lineWidth = Math.max(0.3, r * 0.07);
+          ctx.beginPath(); ctx.ellipse(0, 0, r * 2.2, r * 2.2 * anelSq, 0, de, ate); ctx.stroke();
+          ctx.restore();
+        }
+        if (sh === 'ringed') anel(Math.PI, TAU);          // metade de trás
+
         var pg = ctx.createRadialGradient(x - r * 0.35, y - r * 0.35, r * 0.1, x, y, r);
         pg.addColorStop(0, '#ffffff');
         pg.addColorStop(0.35, c);
         pg.addColorStop(1, rgba(c, 0.55));
         ctx.fillStyle = pg;
         ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.fill();
-        if (sh === 'ringed') {
-          ctx.save();
-          ctx.translate(x, y);
-          ctx.rotate(-0.42 + Math.sin(seed) * 0.3);
-          ctx.strokeStyle = rgba(c, 0.6 * boost);
-          ctx.lineWidth = Math.max(0.6, r * 0.16);
-          ctx.beginPath(); ctx.ellipse(0, 0, r * 1.9, r * 0.55, 0, 0, TAU); ctx.stroke();
-          ctx.strokeStyle = rgba('#ffffff', 0.3 * boost);
-          ctx.lineWidth = Math.max(0.3, r * 0.07);
-          ctx.beginPath(); ctx.ellipse(0, 0, r * 2.2, r * 0.64, 0, 0, TAU); ctx.stroke();
-          ctx.restore();
-        }
+        this.relevo(x, y, r, L[2], L[0], L[1], boost);
+
+        if (sh === 'ringed') anel(0, Math.PI);            // metade da frente
         break;
       }
 
       case 'moon': {
+        var Lm = this.luz(n, x, y);
         this.glow(x, y, r * 3, c, 0.3 * boost);
         ctx.fillStyle = '#eef4ff';
         ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.fill();
+        // a lua é quem mais pede isso: a fase vem da posição no disco
+        if (!fx) this.relevo(x, y, r, Lm[2], Lm[0], Lm[1], boost);
         // no clique, a sombra atravessa a lua: as fases em segundos
         if (fx) {
           ctx.save();

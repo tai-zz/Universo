@@ -107,6 +107,32 @@ sobreposição vale para círculos parados, não para o que a cena realmente faz
 > suba junto `U.FOLGA_FISICA` e `U.BALANCO` no `js/data.js` — é lá que a
 > organização reserva o espaço para a física caber.
 
+### Os corpos também têm volume
+
+O 3D não está só no arranjo: cada astro é desenhado como um corpo, não como
+um ícone chapado.
+
+**A luz vem do centro do nível** — é ele que brilha ali. O lado do astro
+virado para o centro é o lado aceso, com brilho especular e um fio de luz na
+borda; o lado de trás escurece.
+
+**E os astros têm fases.** Um astro no fundo do disco tem o centro entre ele
+e você: está de costas para a luz e aparece como um crescente. Um astro na
+frente aparece cheio. É a mesma razão de a Lua ter fases, e sai de graça
+porque a cena já sabe a profundidade de cada um.
+
+Só os corpos que não brilham sozinhos ganham fase — planeta, lua, asteroide,
+planeta anelado. Estrela, supernova, quasar, pulsar e buraco negro não têm
+lado escuro: a luz é deles.
+
+**Os anéis ficam no plano do disco**, como os de Saturno, e a metade de trás
+é desenhada antes do planeta enquanto a da frente vem depois — é isso que faz
+o anel passar por trás e por diante do corpo.
+
+**As galáxias são discos girando.** A inclinação é aplicada antes do giro,
+então cada uma roda no próprio plano e você é que a vê de lado. Cada galáxia
+foge um pouco do plano do nível, para que não fiquem todas iguais.
+
 ### Sadalo
 
 No canto mais afastado da tela inicial, longe de todas as galáxias, orbita um
@@ -248,14 +274,14 @@ garantia.
 O `index.html` carrega os arquivos com `?v=2` no fim:
 
 ```html
-<link rel="stylesheet" href="style.css?v=3">
-<script src="js/scene.js?v=3"></script>
+<link rel="stylesheet" href="style.css?v=4">
+<script src="js/scene.js?v=4"></script>
 ```
 
 Esse número existe porque o navegador guarda css e js em cache por vários
 minutos. Sem ele, quem já abriu o site continuaria rodando a versão antiga
 mesmo depois da correção ir para o ar. **Ao mudar qualquer css ou js, suba o
-número em todos eles** (v=3 → v=4) antes de publicar. Trocar só o
+número em todos eles** (v=4 → v=5) antes de publicar. Trocar só o
 `universo.json` não precisa: ele já é buscado sem cache.
 
 ## Arquivos
