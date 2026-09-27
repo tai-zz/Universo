@@ -75,6 +75,45 @@ um em cima do outro.
 **Arrastar um astro à mão desliga a organização automática para ele**: fica
 exatamente onde você soltou, e a arrumação dos outros o respeita.
 
+### Um pouco de física de verdade
+
+Nada aqui é uma simulação — são três correções pequenas, recalculadas do zero
+a cada quadro a partir do relógio, sem acumular estado. Por isso nada escapa
+com o tempo, e a organização em anéis continua valendo.
+
+**Kepler.** A velocidade de cada anel sai da 3ª lei: quanto mais longe, mais
+devagar (ω ∝ 1/r¹·⁵), e quanto mais pesado o astro do centro, mais rápido
+(ω ∝ √M). É o que a gravitação de Newton dá para uma órbita redonda — as luas
+correm, as galáxias de fora se arrastam.
+
+**Newton.** Os astros se atraem. Cada um cede um pouco na direção dos
+vizinhos, com força proporcional à massa dividida pela distância ao quadrado,
+então os grandes alcançam de mais longe e, quando dois passam perto, dá uma
+puxadinha visível. Como a aceleração depende da massa *do outro*, o mais leve
+é o que mais cede — que é exatamente o que a lei diz.
+
+**Einstein.** As órbitas não são círculos: são elipses leves cujo eixo gira
+devagar. Isso é a precessão do periélio — a anomalia na órbita de Mercúrio
+que a gravitação de Newton não explicava e que a relatividade geral resolveu.
+Gira mais rápido perto de massa grande e em órbita curta (∝ M/r), como na
+teoria.
+
+O empurrão da atração é **limitado a uma fração da folga** que existe entre os
+dois astros, e os anéis já são dimensionados contando com o balanço da elipse.
+Sem esses dois limites a física desfaria a arrumação: a garantia de não haver
+sobreposição vale para círculos parados, não para o que a cena realmente faz.
+
+> Se um dia você mexer em `Scene.ECC` ou `Scene.PULLMAX` no `js/scene.js`,
+> suba junto `U.FOLGA_FISICA` e `U.BALANCO` no `js/data.js` — é lá que a
+> organização reserva o espaço para a física caber.
+
+### Sadalo
+
+No canto mais afastado da tela inicial, longe de todas as galáxias, orbita um
+planeta pequeno e solitário chamado **Sadalo** — o planeta natal dos Saiyajins.
+Ele fica parado no cantinho porque está marcado como colocado à mão, então a
+organização em anéis não o puxa para perto dos outros.
+
 ## Cada astro reage do jeito dele
 
 Clicar num astro dispara uma animação que combina com o que ele é:

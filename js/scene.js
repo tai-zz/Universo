@@ -248,6 +248,30 @@ var Scene = {
      devolve coordenadas de mundo já achatadas, do mesmo jeito que o modo
      plano entregava. Câmera, clique, arrastar e rótulos seguem intactos —
      só passam a multiplicar o raio pela escala de profundidade (_s).        */
+  /* ── um pouco de física de verdade ──────────────────────────────────
+      Nada aqui é uma simulação: são três correções pequenas, calculadas do
+      zero a cada quadro a partir do tempo, sem acumular estado. Por isso
+      não existe deriva, e a organização em anéis continua valendo.
+
+      NEWTON — cada astro é puxado pelos vizinhos mais pesados, com força
+      proporcional à massa dividida pela distância ao quadrado. Os grandes
+      alcançam mais longe, exatamente como na lei. O empurrão é limitado a
+      uma fração da folga que existe entre os dois, então ele nunca chega a
+      encostar um astro no outro.
+
+      EINSTEIN — as órbitas não são círculos perfeitos: são elipses leves
+      cujo eixo gira devagar. É a precessão do periélio, a anomalia da
+      órbita de Mercúrio que a gravitação de Newton não explicava e que a
+      relatividade geral resolveu. Gira mais rápido perto de massa grande e
+      em órbita curta (∝ M/r), como na teoria. Como o anel inteiro divide a
+      mesma elipse e o mesmo eixo, ele continua girando rígido.            */
+  ECC: 0.075,                      // o quanto a órbita foge do círculo
+  PREC: 0.06,                      // ritmo da precessão do eixo
+  PULL: 6000,                      // alcance da atração entre vizinhos
+  PULLMAX: 0.12,                   // teto: fração da folga que a atração usa
+  // ECC e PULLMAX são orçados pela organização em anéis: ver U.FOLGA_FISICA
+  // e U.BALANCO no data.js. Mexer aqui pede mexer lá.
+
   T3: 0.60,                        // inclinação (0 = de lado · π/2 = de frente)
   SIN3: Math.sin(0.60),
   COS3: Math.cos(0.60),
@@ -255,14 +279,20 @@ var Scene = {
   /* todo nível é um disco no espaço — a raiz também */
   is3d: function () { return !!this.viewNode(); },
 
-  /* distância da câmera ao disco, proporcional ao tamanho do nível */
+  /* Distância da câmera ao disco, proporcional ao tamanho do nível.
+     A medida é um percentil, não o maior raio: um único astro solitário
+     lá longe — o Sadalo, por exemplo — achataria a perspectiva do nível
+     inteiro se puxasse a câmera para trás sozinho.                       */
   dist3: function (kids) {
-    var maxR = 1;
+    var raios = [];
     (kids || []).forEach(function (n) {
-      if (n.orbit && n.orbit.r > maxR) maxR = n.orbit.r;
+      if (n.orbit && n.orbit.r > 0) raios.push(n.orbit.r);
     });
-    this.raio3 = maxR;
-    return Math.max(260, maxR * 2.8);
+    if (!raios.length) { this.raio3 = 1; return 260; }
+    raios.sort(function (a, b) { return a - b; });
+    var r = raios[Math.min(raios.length - 1, Math.floor(raios.length * 0.8))];
+    this.raio3 = r;
+    return Math.max(260, r * 2.8);
   },
 
   /* ponto do disco (ângulo, raio, altura) → mundo achatado + escala + profundidade */
@@ -505,13 +535,73 @@ var Scene = {
       this.d3 = this.dist3(kids);
       this.d3For = this.view;
     }
+    var mCentro = U.type(v.type).size;
     kids.forEach(function (n) {
       var o = n.orbit || { r: 220, a0: 0, speed: 0 };
       var a = o.a0 + self.t * (o.speed || 0);
       n._a = a;
-      var q = self.proj3(a, o.r, 0);
+      // Einstein: elipse leve com o eixo precessionando. O eixo de partida
+      // vem do próprio raio, então cada anel começa virado para um lado.
+      var eixo = o.r * 0.013 + self.t * (self.PREC * mCentro / Math.max(40, o.r));
+      var R = o.r * (1 - self.ECC * Math.cos(a - eixo));
+      var q = self.proj3(a, R, 0);
       n._x = q[0]; n._y = q[1]; n._s = q[2]; n._z = q[3];
     });
+    this.atrair(kids, v);
+  },
+
+  /* Newton: cada astro cede um pouco na direção dos vizinhos mais
+     pesados. O deslocamento é calculado sobre as posições já projetadas e
+     limitado pela folga entre os dois corpos, então é impossível ele
+     fechar a distância e sobrepor alguém.                                */
+  atrair: function (kids, centro) {
+    var i, j;
+    // o centro do nível puxa junto, mas não sai do lugar: ele é a âncora
+    var corpos = kids.slice();
+    if (centro) corpos.push(centro);
+
+    for (i = 0; i < kids.length; i++) {
+      kids[i]._px = 0; kids[i]._py = 0; kids[i]._folga = 1e9;
+    }
+
+    for (i = 0; i < kids.length; i++) {
+      var A = kids[i];
+      var rA = U.type(A.type).size * (A._s || 1);
+      for (j = 0; j < corpos.length; j++) {
+        var B = corpos[j];
+        if (B === A) continue;
+        var dx = (B._x || 0) - (A._x || 0);
+        var dy = (B._y || 0) - (A._y || 0);
+        var d = Math.sqrt(dx * dx + dy * dy);
+        if (d < 1) continue;
+        var mB = U.type(B.type).size;
+        var rB = mB * (B._s || 1);
+        var folga = d - rA - rB;
+        if (folga <= 0) continue;
+        if (folga < A._folga) A._folga = folga;
+        // a aceleração que B provoca em A depende da massa de B sobre a
+        // distância ao quadrado. Os dois se atraem, e quem é leve cede
+        // mais — é o que a lei diz.
+        var f = this.PULL * mB / (d * d);
+        A._px += dx / d * f;
+        A._py += dy / d * f;
+      }
+    }
+
+    // trava final: nenhum astro anda mais que uma fração da menor folga
+    // que ele tem. Como no máximo os dois de um par andam um na direção do
+    // outro, a distância entre eles nunca fecha de verdade.
+    for (i = 0; i < kids.length; i++) {
+      var n = kids[i];
+      var mag = Math.sqrt(n._px * n._px + n._py * n._py);
+      var teto = this.PULLMAX * n._folga;
+      if (mag > teto && mag > 0) {
+        var k = teto / mag;
+        n._px *= k; n._py *= k;
+      }
+      n._x += n._px;
+      n._y += n._py;
+    }
   },
 
   /* ═══════════ CÂMERA ═══════════ */

@@ -247,6 +247,15 @@ var U = {
      Anéis vizinhos giram em sentidos opostos, o que mantém o nível vivo
      sem nunca aproximar dois astros. Quem foi arrastado à mão fica onde o
      usuário deixou (orbit.fix) e não é remexido.                          */
+  /* Margem que a organização reserva para a física da cena. A elipse da
+     precessão faz o raio inchar e murchar, e a atração entre vizinhos
+     encurta distâncias — os anéis precisam ser dimensionados já contando
+     com isso, senão a garantia de não-sobreposição vale só para círculos
+     parados. Estes dois números têm de cobrir Scene.ECC e Scene.PULLMAX:
+     se um deles subir lá, estes sobem aqui junto.                        */
+  FOLGA_FISICA: 1.38,   // folga angular extra (cobre a atração)
+  BALANCO: 0.09,        // o quanto o raio pode inchar (cobre a elipse)
+
   arrange: function (parentId) {
     // o centro do universo não orbita nada: não há o que organizar
     if (!parentId) return;
@@ -281,15 +290,22 @@ var U = {
         if (q > maior) maior = q;
       });
       // raio mínimo para a roda inteira caber sem um astro encostar no outro
-      var rMin = volta * 1.12 / TAU;
+      var rMin = volta * 1.12 * this.FOLGA_FISICA / TAU;
       var r = Math.max(rAtual + maior, rMin);
       var passo = TAU / grupo.length;
       var giro = (anel * 0.5 + 0.17) * passo;   // anéis vizinhos desencontrados
-      var vel = (depth <= 1 ? 0.03 : 0.085) / Math.sqrt(r / 120) * (anel % 2 ? -1 : 1);
+      // 3ª lei de Kepler, que é o que a gravitação de Newton dá para uma
+      // órbita circular: quanto mais longe, mais devagar (ω ∝ 1/r^1,5), e
+      // quanto mais pesado o centro, mais rápido (ω ∝ √M). O teto e o piso
+      // existem só para as luas não virarem um borrão nem os anéis de fora
+      // parecerem parados.
+      var vel = 0.062 * Math.sqrt(pSize / 30) * Math.pow(200 / r, 1.5);
+      vel = Math.max(0.004, Math.min(0.16, vel)) * (anel % 2 ? -1 : 1);
       grupo.forEach(function (n, k) {
         n.orbit = { r: r, a0: (giro + k * passo) % TAU, speed: vel, fix: 0 };
       });
-      rAtual = r + maior;                        // o próximo anel começa depois deste
+      // o próximo anel começa depois deste, com espaço para a elipse inchar
+      rAtual = r + maior + r * this.BALANCO * 2;
       i += porAnel;
       anel++;
     }
