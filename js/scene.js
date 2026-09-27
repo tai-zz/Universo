@@ -281,7 +281,7 @@ var Scene = {
 
   /* Distância da câmera ao disco, proporcional ao tamanho do nível.
      A medida é um percentil, não o maior raio: um único astro solitário
-     lá longe — o Sadalo, por exemplo — achataria a perspectiva do nível
+     lá longe — Sadala, por exemplo — achataria a perspectiva do nível
      inteiro se puxasse a câmera para trás sozinho.                       */
   dist3: function (kids) {
     var raios = [];
@@ -1135,17 +1135,20 @@ var Scene = {
 
       case 'cloud': {
         ctx.save();
-        var puff = 1 + 0.55 * e;   // a nuvem respira ao ser clicada
+        // a nuvem respira sozinha, e mais fundo ao ser clicada
+        var puff = 1 + 0.55 * e + 0.07 * Math.sin(t * 0.5 + seed);
         for (var m = 0; m < 5; m++) {
-          var ang2 = (seed + m) * 1.7 + t * 0.06 + spin * 0.4;
+          var ang2 = (seed + m) * 1.7 + t * 0.22 + spin * 0.4;
           var ox = Math.cos(ang2) * r * 0.9 * puff, oy = Math.sin(ang2 * 1.3) * r * 0.6 * puff;
           this.glow(x + ox, y + oy, r * (1.6 + (m % 3) * 0.5) * puff, m % 2 ? c : '#5b8cff', 0.16 * boost);
         }
         ctx.restore();
-        this.glow(x, y, r * 0.8, '#ffffff', 0.55 * boost);
+        this.glow(x, y, r * 0.8 * puff, '#ffffff', 0.55 * boost);
+        // as faíscas piscam fora de compasso umas das outras
         for (var s2 = 0; s2 < 6; s2++) {
-          var a3 = seed + s2 * 2.1;
-          ctx.fillStyle = 'rgba(255,255,255,.6)';
+          var a3 = seed + s2 * 2.1 + t * 0.13;
+          var cin = 0.35 + 0.45 * (0.5 + 0.5 * Math.sin(t * 1.6 + s2 * 2.3 + seed));
+          ctx.fillStyle = 'rgba(255,255,255,' + cin.toFixed(2) + ')';
           ctx.beginPath();
           ctx.arc(x + Math.cos(a3) * r * 1.3, y + Math.sin(a3) * r, Math.max(0.5, r * 0.08), 0, TAU);
           ctx.fill();
@@ -1337,6 +1340,8 @@ var Scene = {
         // A metade de trás é desenhada antes do planeta e a da frente
         // depois — é isso que faz o anel passar por trás e por diante.
         var anelSq = this.SIN3 * 0.92;
+        // o anel gira mais rápido que o planeta, como manda a mecânica
+        var anelGiro = t * 0.45 + seed;
         function anel(de, ate) {
           ctx.save();
           ctx.translate(x, y);
@@ -1346,6 +1351,26 @@ var Scene = {
           ctx.strokeStyle = rgba('#ffffff', 0.3 * boost);
           ctx.lineWidth = Math.max(0.3, r * 0.07);
           ctx.beginPath(); ctx.ellipse(0, 0, r * 2.2, r * 2.2 * anelSq, 0, de, ate); ctx.stroke();
+
+          // Grãos dando a volta. Sem eles o anel é uma elipse lisa, e uma
+          // elipse lisa girando não se mexe aos olhos. Cada grão só é
+          // desenhado na metade que está sendo traçada, então continua
+          // passando por trás e por diante do planeta.
+          if (r >= 2.5) {
+            for (var gi = 0; gi < 16; gi++) {
+              var ga = anelGiro + gi * (TAU / 16);
+              var gn = ((ga % TAU) + TAU) % TAU;
+              if (gn < de || gn > ate) continue;
+              var gr2 = r * (1.9 + ((seed + gi * 5) % 7) / 20);
+              ctx.fillStyle = gi % 3
+                ? rgba('#ffffff', 0.5 * boost)
+                : rgba(c, 0.75 * boost);
+              ctx.beginPath();
+              ctx.arc(Math.cos(ga) * gr2, Math.sin(ga) * gr2 * anelSq,
+                      Math.max(0.4, r * 0.075), 0, TAU);
+              ctx.fill();
+            }
+          }
           ctx.restore();
         }
         if (sh === 'ringed') anel(Math.PI, TAU);          // metade de trás
@@ -1356,6 +1381,32 @@ var Scene = {
         pg.addColorStop(1, rgba(c, 0.55));
         ctx.fillStyle = pg;
         ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.fill();
+
+        // Manchas de superfície dando a volta. Uma esfera lisa girando é
+        // indistinguível de uma esfera parada — é a mancha atravessando a
+        // face e sumindo na borda que deixa ver o planeta rodar. Cada uma
+        // só aparece enquanto está do lado de cá (cos > 0) e afina ao
+        // chegar na borda, como um ponto de verdade sobre uma bola.
+        if (r >= 2.5) {
+          var giro = t * (0.33 + (seed % 7) * 0.04) + seed;
+          ctx.save();
+          ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.clip();
+          for (var mb = 0; mb < 3; mb++) {
+            var lam = giro + mb * 2.1;
+            var cl = Math.cos(lam);
+            if (cl <= 0.05) continue;                    // está do outro lado
+            var mx = x + Math.sin(lam) * r * 0.76;
+            var my = y + (((seed + mb * 13) % 10) / 10 - 0.5) * r * 1.05;
+            // escuras de propósito: na cor do próprio planeta elas se
+            // dissolviam no corpo e o giro não se lia
+            ctx.fillStyle = 'rgba(12,30,68,' + (0.34 * cl * boost).toFixed(3) + ')';
+            ctx.beginPath();
+            ctx.ellipse(mx, my, r * 0.38 * cl, r * 0.2, 0, 0, TAU);
+            ctx.fill();
+          }
+          ctx.restore();
+        }
+
         this.relevo(x, y, r, L[2], L[0], L[1], boost);
 
         if (sh === 'ringed') anel(0, Math.PI);            // metade da frente
@@ -1367,6 +1418,26 @@ var Scene = {
         this.glow(x, y, r * 3, c, 0.3 * boost);
         ctx.fillStyle = '#eef4ff';
         ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.fill();
+
+        // crateras dando a volta devagar — uma lua gira preguiçosa
+        if (r >= 2.5) {
+          var lgiro = t * 0.12 + seed;
+          ctx.save();
+          ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.clip();
+          for (var cr = 0; cr < 4; cr++) {
+            var cla = lgiro + cr * 1.7;
+            var ccl = Math.cos(cla);
+            if (ccl <= 0.05) continue;
+            var cx2 = x + Math.sin(cla) * r * 0.7;
+            var cy2 = y + (((seed + cr * 17) % 10) / 10 - 0.5) * r * 1.2;
+            ctx.fillStyle = 'rgba(154,172,206,' + (0.42 * ccl).toFixed(3) + ')';
+            ctx.beginPath();
+            ctx.ellipse(cx2, cy2, r * 0.25 * ccl, r * 0.21, 0, 0, TAU);
+            ctx.fill();
+          }
+          ctx.restore();
+        }
+
         // a lua é quem mais pede isso: a fase vem da posição no disco
         if (!fx) this.relevo(x, y, r, Lm[2], Lm[0], Lm[1], boost);
         // no clique, a sombra atravessa a lua: as fases em segundos
@@ -1386,13 +1457,14 @@ var Scene = {
       }
 
       default: { // 'star'
-        var tw2 = 0.85 + 0.15 * Math.sin(t * 1.9 + seed);
+        var tw2 = 0.8 + 0.2 * Math.sin(t * 1.9 + seed);
         this.glow(x, y, r * 4 * tw2 * (1 + 0.7 * e), c, 0.35 * boost);
         ctx.save();
         ctx.translate(x, y);
-        // as pontas de difração se esticam no clique
-        var arm = r * 2.1 * (1 + 2.1 * e);
-        ctx.rotate(fx ? spin * 0.12 : 0);
+        // as pontas piscam junto com o halo e giram devagarinho — antes
+        // só o halo respirava e a cruz ficava dura no lugar
+        var arm = r * 2.1 * tw2 * (1 + 2.1 * e);
+        ctx.rotate(t * 0.07 + seed + (fx ? spin * 0.12 : 0));
         ctx.strokeStyle = rgba('#ffffff', 0.55 * boost);
         ctx.lineWidth = Math.max(0.4, r * 0.11);
         ctx.beginPath();

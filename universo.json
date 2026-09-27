@@ -2671,7 +2671,7 @@
     },
     {
       "id": "nsadala9x7k2",
-      "name": "Sadalo",
+      "name": "Sadala",
       "type": "planeta",
       "parent": "core",
       "desc": "O planeta natal dos Saiyajins, perdido num canto distante do universo.",
@@ -2688,5 +2688,5 @@
     }
   ],
   "links": [],
-  "savedAt": 1790466829607
+  "savedAt": 1790468019567
 }

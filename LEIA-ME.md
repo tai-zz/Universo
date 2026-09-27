@@ -133,10 +133,10 @@ o anel passar por trás e por diante do corpo.
 então cada uma roda no próprio plano e você é que a vê de lado. Cada galáxia
 foge um pouco do plano do nível, para que não fiquem todas iguais.
 
-### Sadalo
+### Sadala
 
 No canto mais afastado da tela inicial, longe de todas as galáxias, orbita um
-planeta pequeno e solitário chamado **Sadalo** — o planeta natal dos Saiyajins.
+planeta pequeno e solitário chamado **Sadala** — o planeta natal dos Saiyajins.
 Ele fica parado no cantinho porque está marcado como colocado à mão, então a
 organização em anéis não o puxa para perto dos outros.
 
@@ -274,14 +274,14 @@ garantia.
 O `index.html` carrega os arquivos com `?v=2` no fim:
 
 ```html
-<link rel="stylesheet" href="style.css?v=4">
-<script src="js/scene.js?v=4"></script>
+<link rel="stylesheet" href="style.css?v=5">
+<script src="js/scene.js?v=5"></script>
 ```
 
 Esse número existe porque o navegador guarda css e js em cache por vários
 minutos. Sem ele, quem já abriu o site continuaria rodando a versão antiga
 mesmo depois da correção ir para o ar. **Ao mudar qualquer css ou js, suba o
-número em todos eles** (v=4 → v=5) antes de publicar. Trocar só o
+número em todos eles** (v=5 → v=6) antes de publicar. Trocar só o
 `universo.json` não precisa: ele já é buscado sem cache.
 
 ## Arquivos
